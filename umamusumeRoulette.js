@@ -1,8 +1,9 @@
 const SLOTS_PER_REEL = 12;
 // radius = Math.round( ( panelWidth / 2) / Math.tan( Math.PI / SLOTS_PER_REEL ) ); 
 // current settings give a value of 149, rounded to 150
-const REEL_RADIUS = 148;
-const ListTotal = [];
+const REEL_RADIUS = 149;
+var COUNT = 1;
+let DictRoute = {}; // Route Append
 const consoleDiv = document.querySelector("#console")
 const consoleToHtml = function() {
     Array.from(arguments).forEach(el => {
@@ -109,17 +110,24 @@ let DictLUT = {0: {0: {0: {3: [2]}},	// 삿포로
 
 function createSlots (ring, DictTemp) {
 	var slotAngle = 360 / SLOTS_PER_REEL;
-	var LenTemp = Object.keys(DictTemp).length
-	for (var i = 0; i < LenTemp; i ++) {
+	// var LenTemp = Object.keys(DictTemp).length
+	let ListGen = [];
+	for (val in Object.keys(DictTemp)){
+		ListGen.push(DictTemp[val]);
+	}
+	genTemp = infGenerator(ListGen);
+	for (var i = 0; i < SLOTS_PER_REEL; i ++) {
 		var slot = document.createElement('div');
 		slot.className = 'slot';
+		var genNext = genTemp.next().value;
 		
 		// compute and assign the transform for this slot
 		var transform = 'rotateX(' + (slotAngle * i) + 'deg) translateZ(' + REEL_RADIUS + 'px)';
 		slot.style.transform = transform;
-		slot.style.backgroundColor = DictTemp[i][1];
+		slot.style.backgroundColor = genNext[1];
 		// setup the number to show inside the slots
-		var content = slot.append((DictTemp[i][0]));
+		
+		var content = $(slot).append(genNext[0]);
 		// add the poster to the row
 		ring.append(slot);
 	}
@@ -151,75 +159,59 @@ function* infGenerator(ListGen){
     }
 }
 
-function spin(timer) {
-	//var txt = 'seeds: ';
+function spin(timer, COUNT) {
 	let ListLUT = [];
 	findRoute(DictLUT, ListLUT);
-	ListTotal.push(ListLUT);
+	DictRoute[COUNT++] = ListLUT;
 	for(var i = 1; i < 6; i ++) {
 		// Condition
-		console.log("ring"+i+"done");
-		// 0:-120 1:-150, ... i:-30*(i+4)
-		// -30도: idx +1
-		document.querySelector('#ring'+i)
-			// .animate([
-			// 	{ transform: rotateX(-30deg), offset: 0 },
-			// 	{ transform: rotateX(-150deg), offset: 0.5 },
-			// 	{ transform: rotateX(-300deg), offset: 1.0 }
-			// ], {
-			// 	duration: 2000,
-			// 	direction: 'alternate',
-			// 	iterations: Infinity
-			// })
-			// .attr('class','ring spin-' + seed);
-		console.log("ring animate done")
+		var oldClass = $('#ring'+i).attr('class');
+		if(oldClass.length > 4) {
+			oldSeed = parseInt(oldClass.slice(10));
+		}
+		var seed = getSeed(SLOTS_PER_REEL);
+		while(oldSeed == seed) {
+			seed = getSeed(SLOTS_PER_REEL);
+		}
+		// Current index - seed + 2 = Win index
+		$('#ring'+i)
+			.css('animation','back-spin 1s, spin-' + seed + ' ' + (timer + i*0.5) + 's')
+			.attr('class','ring spin-' + seed);
 	}
-
-	console.log('=====');
+	// console.log(DictRoute);
+	// console.log('=====');
 }
 
-window.onload = function() {
+// window.onload = function() {
+$(document).ready(function() {
 	// initiate slots 
+	// ring1:spin6 (-240deg + back60deg : idx - 6 ) 
+	// ring2:spin9 (-330deg + back60deg : idx - 9)
+	// ring3:spin3 (-150deg + back60deg : idx - 3)
+	// ring4:spin1 (-90deg + back60deg : idx - 1)
+	// ring5:spin2 (-120deg + back60deg : idx - 2)
  	createSlots(document.querySelector('#ring1'), DictRange);
  	createSlots(document.querySelector('#ring2'), DictLoc);
  	createSlots(document.querySelector('#ring3'), DictRot);
  	createSlots(document.querySelector('#ring4'), DictSide);
  	createSlots(document.querySelector('#ring5'), DictLength);
- 	// hook start button
- 	document.querySelector('.go').addEventListener('click',function(){
+
+	// Button Start
+	$(".go").click(function(){
  		var timer = 1;
  		spin(timer);
  	});
- 	// hook xray checkbox
-	console.log("after go");
- 	document.querySelector('#xray').addEventListener('click',function(){
-		document.getElementById("checkbox").checked = true;
-		console.log("xray go");
-		var tilt = 'tiltout';
-		// check box condition: xray
-		if(document.getElementById("checkbox").checked) {
-			tilt = 'tiltin';
-			document.querySelector('.slot').addClass('backface-on');
-			document
-			.querySelector('#rotate').css('animation',tilt + ' 2s 1');
 
-			setTimeout(function(){
-				document.querySelector('#rotate').toggleClass('tilted');
-			},2000);
-		} else {
-			tilt = 'tiltout';
-			document.querySelector('#rotate').css({'animation':tilt + ' 2s 1'});
-
-			setTimeout(function(){
-				document.querySelector('#rotate').toggleClass('tilted');
-				document.querySelector('.slot').removeClass('backface-on');
-			},1900);
-		}
+	// Button Reset
+	$(".goReset").click(function(){
+		COUNT = 1;
+		DictRoute = {};		
+	});
+	
+	// hook result checkbox
+ 	$('#result').click(function(){
+		// $('#result').is(':checked') = true;
+		// console.log($('#result').is(':checked'));
  	})
 
- 	// hook perspective
-	// check box condition: perspective
- 	document.querySelector('#perspective').on('click',function(){
-		document.querySelector('#stage').toggleClass('perspective-on perspective-off');
- 	})	
- };
+ });
