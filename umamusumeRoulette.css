@@ -129,21 +129,21 @@ body {
   }
   /*=====*/
   .spin-itit  { transform: rotateX(0deg); }
-  .spin-0     { transform: rotateX(-3719deg); } 
-  .spin-1     { transform: rotateX(-3749deg); }
-  .spin-2     { transform: rotateX(-3779deg); }
-  .spin-3     { transform: rotateX(-3809deg); }
-  .spin-4     { transform: rotateX(-3839deg); }
-  .spin-5     { transform: rotateX(-3869deg); }
-  .spin-6     { transform: rotateX(-3899deg); }
-  .spin-7     { transform: rotateX(-3929deg); }
-  .spin-8     { transform: rotateX(-3959deg); }
-  .spin-9     { transform: rotateX(-3989deg); }
-  .spin-10    { transform: rotateX(-4019deg); }
-  .spin-11    { transform: rotateX(-4049deg); }
+  .spin-0     { transform: rotateX(-3659deg); } 
+  .spin-1     { transform: rotateX(-3689deg); }
+  .spin-2     { transform: rotateX(-3719deg); }
+  .spin-3     { transform: rotateX(-3749deg); }
+  .spin-4     { transform: rotateX(-3779deg); }
+  .spin-5     { transform: rotateX(-3809deg); }
+  .spin-6     { transform: rotateX(-3839deg); }
+  .spin-7     { transform: rotateX(-3869deg); }
+  .spin-8     { transform: rotateX(-3899deg); }
+  .spin-9     { transform: rotateX(-3929deg); }
+  .spin-10    { transform: rotateX(-3959deg); }
+  .spin-11    { transform: rotateX(-3989deg); }
   /*=====*/
   @keyframes back-spin {
-      /*0%    { transform: rotateX(0deg); }*/
+      0%    { transform: rotateX(0deg); }
       100%  { transform: rotateX(30deg); }
   }
   @keyframes tiltin {
@@ -158,49 +158,49 @@ body {
  
   @keyframes spin-0 {
       0%    { transform: rotateX(30deg); }
-      100%  { transform: rotateX(-3719deg); }
+      100%  { transform: rotateX(-3659deg); }
   }
   @keyframes spin-1 {
     0%    { transform: rotateX(30deg); }
-    100%  { transform: rotateX(-3749deg); }
+    100%  { transform: rotateX(-3689deg); }
   }
   @keyframes spin-2 {
       0%    { transform: rotateX(30deg); }
-      100%  { transform: rotateX(-3779deg); }
+      100%  { transform: rotateX(-3719deg); }
   }
   @keyframes spin-3 {
     0%    { transform: rotateX(30deg); }
-    100%  { transform: rotateX(-3809deg); }
+    100%  { transform: rotateX(-3749deg); }
   }
   @keyframes spin-4 {
       0%    { transform: rotateX(30deg); }
-      100%  { transform: rotateX(-3839deg); }
+      100%  { transform: rotateX(-3779deg); }
   }
   @keyframes spin-5 {
       0%    { transform: rotateX(30deg); }
-      100%  { transform: rotateX(-3869deg); }
+      100%  { transform: rotateX(-3809deg); }
   }
   @keyframes spin-6 {
     0%    { transform: rotateX(30deg); }
-    100%  { transform: rotateX(-3899deg); }
+    100%  { transform: rotateX(-3839deg); }
   }
   @keyframes spin-7 {
       0%    { transform: rotateX(30deg); }
-      100%  { transform: rotateX(-3929deg); }
+      100%  { transform: rotateX(-3869deg); }
   }
   @keyframes spin-8 {
       0%    { transform: rotateX(30deg); }
-      100%  { transform: rotateX(-3959deg); }
+      100%  { transform: rotateX(-3899deg); }
   }
   @keyframes spin-9 {
       0%    { transform: rotateX(30deg); }
-      100%  { transform: rotateX(-3989deg); }
+      100%  { transform: rotateX(-3929deg); }
   }
   @keyframes spin-10 {
       0%    { transform: rotateX(30deg); }
-      100%  { transform: rotateX(-4019deg); }
+      100%  { transform: rotateX(-3959deg); }
   }
   @keyframes spin-11 {
       0%    { transform: rotateX(30deg); }
-      100%  { transform: rotateX(-4049deg); }
+      100%  { transform: rotateX(-3989deg); }
   }
