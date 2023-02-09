@@ -4,6 +4,7 @@ const SLOTS_PER_REEL = 12;
 const REEL_RADIUS = 149;
 var COUNT = 1;
 let DictRoute = {}; // Route Append
+let ListCurrentRings = []; // Route Append
 const consoleDiv = document.querySelector("#console")
 const consoleToHtml = function() {
     Array.from(arguments).forEach(el => {
@@ -32,7 +33,8 @@ let DictLoc = {0: ["삿포로", "#C7E3A4"],
 				7: ["교토", "#F2BD93"],
 				8: ["한신", "#FAD8CC"],
 				9: ["코쿠라", "#F5A6CD"],
-				10: ["오이", "#D879C9"]
+				10: ["오이", "#D879C9"],
+				11: [`url("https://github.com/seoulSoup/umamusumeRoulette/blob/main/assets/icon(squre)/big.png?raw=true)`, "#CAC3F7"]
 				};
 let DictRot = {0: ["시계 (우)", "#F595B2"], 1: ["반시계 (좌)", "#FFB3B3"], 2: ["직선", "#FFF1BA"]};
 let DictSide = {0: ["내주로", "#BEE3ED"], 1: ["외주로", "#AFADDE"], 2: ["외->내", "#FFA694"], 3: ["없음", "#BFEDBE"]};
@@ -112,25 +114,41 @@ function createSlots (ring, DictTemp) {
 	var slotAngle = 360 / SLOTS_PER_REEL;
 	// var LenTemp = Object.keys(DictTemp).length
 	let ListGen = [];
+	let ListSlot = [];
 	for (val in Object.keys(DictTemp)){
-		ListGen.push(DictTemp[val]);
+		ListGen.push([val, DictTemp[val]]);
 	}
+	// shuffle List
+	shuffle(ListGen);
 	genTemp = infGenerator(ListGen);
 	for (var i = 0; i < SLOTS_PER_REEL; i ++) {
 		var slot = document.createElement('div');
 		slot.className = 'slot';
 		var genNext = genTemp.next().value;
-		
 		// compute and assign the transform for this slot
 		var transform = 'rotateX(' + (slotAngle * i) + 'deg) translateZ(' + REEL_RADIUS + 'px)';
 		slot.style.transform = transform;
-		slot.style.backgroundColor = genNext[1];
+		slot.style.backgroundColor = genNext[1][1];
 		// setup the number to show inside the slots
-		
-		var content = $(slot).append(genNext[0]);
+		var content = genNext[1][0]
+		if (content.includes("url")){
+			$(slot).css("background-image", content)
+					.css("background-size", "contain")
+					.css("background-position", "center")
+					.css("background-repeat", "no-repeat")
+					// .css("object-position", "50% 50%")
+		}
+		else {
+			
+			$(slot).append(content);
+		}
+		ListSlot.push(genNext);
 		// add the poster to the row
 		ring.append(slot);
+		
 	}
+	// console.log(ListSlot);
+	ListCurrentRings.push(ListSlot);
 }
 
 function getSeed(LenInput) {
@@ -140,8 +158,8 @@ function getSeed(LenInput) {
 }
 
 function findRoute(DictLUT, ListLUT) {
-    if (typeof DictLUT == 'number') {
-        ListLUT.push(DictLUT);
+    if (Array.isArray(DictLUT)) {
+        ListLUT.push(DictLUT[getSeed(DictLUT.length)].toString());
         return;
     }
     var keys = Object.keys(DictLUT);
@@ -159,20 +177,73 @@ function* infGenerator(ListGen){
     }
 }
 
-function spin(timer, COUNT) {
+function shuffle(array) {
+	for (let i = array.length - 1; i > 0; i--) {
+		  // 무작위로 index 값 생성 (0 이상 i 미만)
+	  let j = Math.floor(Math.random() * (i + 1));
+	  [array[i], array[j]] = [array[j], array[i]];
+	}
+}
+function spin(timer) {
 	let ListLUT = [];
 	findRoute(DictLUT, ListLUT);
 	DictRoute[COUNT++] = ListLUT;
+	console.log(DictRoute);
 	for(var i = 1; i < 6; i ++) {
+		console.log($('#ring'+i).attr('class'));
+		
+		let ListCurrentRing = ListCurrentRings[i-1];
+		var answer = ListLUT[i-1];
 		// Condition
 		var oldClass = $('#ring'+i).attr('class');
 		if(oldClass.length > 4) {
 			oldSeed = parseInt(oldClass.slice(10));
 		}
-		var seed = getSeed(SLOTS_PER_REEL);
-		while(oldSeed == seed) {
-			seed = getSeed(SLOTS_PER_REEL);
+		// Checking Answer in Ring?
+		let ListAnswerIdx = [];
+		for (var k = 0; k < ListCurrentRing.length; k++){
+			if (answer == ListCurrentRing[k][0] && (k + 10)%12 != oldSeed) ListAnswerIdx.push(k);
 		}
+		// Case: Answer is in Ring already
+		if (ListAnswerIdx.length > 0){
+			var seed = getSeed(ListAnswerIdx.length);
+			while(oldSeed == ListAnswerIdx[seed]) {
+				seed = getSeed(ListAnswerIdx.length);
+			}
+			console.log("oldSeed: ", oldSeed); // index of answer in ring
+			console.log("seed: ", (ListAnswerIdx[seed] + 10) % 12); // index of answer in ring
+			console.log(ListCurrentRing[ListAnswerIdx[seed]]); // answer
+			seed = (ListAnswerIdx[seed] + 10) % 12;
+		} 
+		// Case: Answer is not in Ring => Ju-jack
+		else {
+			seed = 5;
+			// var slot = $('#ring'+i).slot;
+			console.log("changed");
+			console.log($('#ring'+i).children("3").attr("class"));
+			// $('#ring'+i).children("3").css("background-image", `url("https://github.com/seoulSoup/umamusumeRoulette/blob/main/assets/icon(squre)/big.png?raw=true)`);
+			// slot.className = 'slot';
+			// var genNext = genTemp.next().value;
+			// // compute and assign the transform for this slot
+			// slot.style.backgroundColor = genNext[1][1];
+			// // setup the number to show inside the slots
+			// var content = genNext[1][0]
+			// if (content.includes("url")){
+			// 	$(slot).css("background-image", content)
+			// 			.css("background-size", "contain")
+			// 			.css("background-position", "center")
+			// 			.css("background-repeat", "no-repeat")
+			// }
+		}
+		// Current Win position Index: oldSeed + 2
+		// We have to put answer into this position
+		
+		// seed = (12 + ListAnswerIdx[seed])%12;
+		// var seed = getSeed(SLOTS_PER_REEL);
+		// while(oldSeed == seed) {
+		// 	seed = getSeed(SLOTS_PER_REEL);
+		// }
+
 		// Current index - seed + 2 = Win index
 		$('#ring'+i)
 			.css('animation','back-spin 1s, spin-' + seed + ' ' + (timer + i*0.5) + 's')
@@ -185,16 +256,16 @@ function spin(timer, COUNT) {
 // window.onload = function() {
 $(document).ready(function() {
 	// initiate slots 
-	// ring1:spin6 (-240deg + back60deg : idx - 6 ) 
-	// ring2:spin9 (-330deg + back60deg : idx - 9)
-	// ring3:spin3 (-150deg + back60deg : idx - 3)
-	// ring4:spin1 (-90deg + back60deg : idx - 1)
-	// ring5:spin2 (-120deg + back60deg : idx - 2)
- 	createSlots(document.querySelector('#ring1'), DictRange);
- 	createSlots(document.querySelector('#ring2'), DictLoc);
- 	createSlots(document.querySelector('#ring3'), DictRot);
- 	createSlots(document.querySelector('#ring4'), DictSide);
- 	createSlots(document.querySelector('#ring5'), DictLength);
+	// ring1:spin6 (-240deg + back60deg : idx - 6 ) Win: ListSlot1[8]
+	// ring2:spin9 (-330deg + back60deg : idx - 9) Win: ListSlot2[11]
+	// ring3:spin3 (-150deg + back60deg : idx - 3) Win: ListSlot3[5]
+	// ring4:spin1 (-90deg + back60deg : idx - 1) Win: ListSlot4[3]
+	// ring5:spin2 (-120deg + back60deg : idx - 2) Win: ListSlot5[4]
+	createSlots(document.querySelector('#ring1'), DictRange);
+	createSlots(document.querySelector('#ring2'), DictLoc);
+	createSlots(document.querySelector('#ring3'), DictRot);
+	createSlots(document.querySelector('#ring4'), DictSide);
+	createSlots(document.querySelector('#ring5'), DictLength);
 
 	// Button Start
 	$(".go").click(function(){

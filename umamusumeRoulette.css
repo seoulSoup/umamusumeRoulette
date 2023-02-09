@@ -85,7 +85,9 @@ body {
     margin: 0;
     text-align: center;
   }
-  
+  #buttons {
+    text-align: center;
+  }
   .go {
     font-family: 'uma';
     width: 180px;
@@ -94,8 +96,9 @@ body {
     border: none;
     background-color: #ad48ff;
     /* background-image: url(./images/button_left.png); */
-    display: block;
-    margin: 0 auto 20px;
+    display: inline-block;
+    /* margin: 0% 30%; */
+    /* margin-left: 30%; */
     padding:10px 30px;
     /* font: 20px 'uma'; */
     font-size: 25px;
@@ -116,8 +119,9 @@ body {
     border: none;
     background-color: #ad48ff;
     /* background-image: url(./images/button_left.png); */
-    display: block;
-    margin: 0 auto 20px;
+    display: inline-block;
+    /* margin: auto; */
+    margin-left: 20px;
     padding:10px 30px;
     /* font: 20px 'uma'; */
     font-size: 25px;
@@ -133,14 +137,18 @@ body {
   label {
     cursor: pointer;
     display: inline-block;
-    width: 45%;
+    margin: 20px auto;
+    /* margin-left: auto;
+    margin-right: auto; */
+    width: 50%;
     text-align: center;
   }
+
   .tilted {
     transform: rotateY(45deg);
   }
   /*=====*/
-  .spin-itit  { transform: rotateX(0deg); }
+  .spin-init  { transform: rotateX(0deg); }
   .spin-0     { transform: rotateX(-3659deg); } 
   .spin-1     { transform: rotateX(-3689deg); }
   .spin-2     { transform: rotateX(-3719deg); }
@@ -153,6 +161,7 @@ body {
   .spin-9     { transform: rotateX(-3929deg); }
   .spin-10    { transform: rotateX(-3959deg); }
   .spin-11    { transform: rotateX(-3989deg); }
+  .spin-12    { transform: rotateX(-4019deg); }
   /*=====*/
   @keyframes back-spin {
       0%    { transform: rotateX(0deg); }
@@ -216,3 +225,9 @@ body {
       0%    { transform: rotateX(30deg); }
       100%  { transform: rotateX(-3989deg); }
   }
+  @keyframes spin-12 {
+    0%    { transform: rotateX(30deg); }
+    100%  { transform: rotateX(-4019deg); }
+  }
+ 
+
