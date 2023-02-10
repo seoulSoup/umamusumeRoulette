@@ -193,7 +193,7 @@ function spin(timer) {
 	let ListLUT = [];
 	findRoute(DictLUT, ListLUT);
 	DictRoute[COUNT++] = ListLUT;
-	console.log(DictRoute);
+	// console.log(DictRoute);
 	for(var i = 1; i < 6; i ++) {
 		// console.log($('#ring'+i).attr('class'));
 		
