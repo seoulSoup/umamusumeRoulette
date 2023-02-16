@@ -273,9 +273,9 @@ function spin(timer, DictInput) {
 			// $('#ring'+i)
 			// .css('animation','back-spin 1s, spin-' + seed + ' ' + (timer + i*0.5) + 's')
 			// .attr('class','ring spin-' + seed);  // Last State (Result)
-			$('#ring'+i)
-			.css('animation','spin-' + seed + ' ' + (timer + i*0.5) + 's')
-			.attr('class','ring spin-' + seed);  // Last State (Result)
+			// $('#ring'+i)
+			// .css('animation','spin-' + seed + ' ' + (timer + i*0.5) + 's')
+			// .attr('class','ring spin-' + seed);  // Last State (Result)
 			// $('#ring'+i)
 			// .attr('class','ring spin-' + seed);  // Last State (Result)
 			// console.log($('#ring'+i).attr('class'));
@@ -287,12 +287,27 @@ function spin(timer, DictInput) {
 		// 	// spinSeed = seed + '-' + 2;
 		// 	// spinSeed = 0;
 		// 	console.log(spinSeed);
+		$('#ring'+i)
+		.animate([
+				{ transform: 'rotateX(30deg);'},
+				{ transform: 'rotateX(-3659deg)'}
+				],{	
+					duration : 1000,
+					delay:700
+				}
+				);
 		}
 		else {
 			// Animation
+			// $('#ring'+i)
+			// .css('animation','back-spin 1s, spin-' + seed + ' ' + (timer + i*0.5) + 's')
+			// .attr('class','ring spin-' + seed);  // Last State (Result)
+			$('#ring'+i).attr('class','ring spin-' + seed)
 			$('#ring'+i)
-			.css('animation','back-spin 1s, spin-' + seed + ' ' + (timer + i*0.5) + 's')
-			.attr('class','ring spin-' + seed);  // Last State (Result)
+			// document.querySelector("#ring"+i)
+			.animate({
+						transform: 'rotateX(-3659deg)'}
+						, (timer + i*0.5)*1000, "swing");
 		}
 
 		// Current Win position Index: oldSeed + 2
