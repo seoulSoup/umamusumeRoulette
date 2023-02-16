@@ -310,7 +310,6 @@ $(document).ready(function() {
 		// console.log(COUNT);
 		if (COUNT > 5){
 			alert('5번 꽉찻다 이기');
-			console.log(COUNT);
 		}
 		else {
 			var timer = 1;
