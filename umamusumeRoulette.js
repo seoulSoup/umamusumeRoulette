@@ -192,6 +192,21 @@ function shuffle(array) {
 function spin(timer) {
 	let ListLUT = [];
 	findRoute(DictLUT, ListLUT);
+	if (COUNT > 1){
+		let ListBefore = DictRoute[COUNT];
+		var flagBreak = false;
+		while (true){
+			for (i = 0; i < ListBefore.length; i++){
+				if (ListBefore[i] == ListLUT[i]){
+					flagBreak = true;
+					break;
+				}
+			}
+			if (~flagBreak) break;
+		}
+	}
+	
+	
 	DictRoute[COUNT++] = ListLUT;
 	// console.log(DictRoute);
 	for(var i = 1; i < 6; i ++) {
@@ -243,25 +258,25 @@ function spin(timer) {
 			
 		}
 		// var spinSeed = seed;
-		if (seed == oldSeed){
-			// console.log("start");
-			$('#ring'+i)
-			.css('animation','back-spin 1s, spin-' + seed + ' ' + (timer + i*0.5) + 's')
-			// console.log("end");
-		// 	console.log(oldClass);
-		// 	console.log("Seed: ", seed);
-		// 	console.log("oldSeed: ", oldSeed);
-		// 	// if (flagOldSeed) spinSeed = seed + '-' + 2;
-		// 	// spinSeed = seed + '-' + 2;
-		// 	// spinSeed = 0;
-		// 	console.log(spinSeed);
-		}
-		else {
-			// Animation
+		// if (seed == oldSeed){
+		// 	// console.log("start");
+		// 	$('#ring'+i)
+		// 	.css('animation','back-spin 1s, spin-' + seed + ' ' + (timer + i*0.5) + 's')
+		// 	// console.log("end");
+		// // 	console.log(oldClass);
+		// // 	console.log("Seed: ", seed);
+		// // 	console.log("oldSeed: ", oldSeed);
+		// // 	// if (flagOldSeed) spinSeed = seed + '-' + 2;
+		// // 	// spinSeed = seed + '-' + 2;
+		// // 	// spinSeed = 0;
+		// // 	console.log(spinSeed);
+		// }
+		// else {
+		// 	// Animation
 			$('#ring'+i)
 			.css('animation','back-spin 1s, spin-' + seed + ' ' + (timer + i*0.5) + 's')
 			.attr('class','ring spin-' + seed);  // Last State (Result)
-		}
+		// }
 		
 
 		// Current Win position Index: oldSeed + 2
