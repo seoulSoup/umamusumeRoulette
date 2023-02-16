@@ -149,7 +149,7 @@ body {
   }
   /*=====*/
   .spin-init  { transform: rotateX(0deg); }
-  /* .spin-0     { transform: rotateX(-3659deg); } 
+  .spin-0     { transform: rotateX(-3659deg); } 
   .spin-1     { transform: rotateX(-3689deg); }
   .spin-2     { transform: rotateX(-3719deg); }
   .spin-3     { transform: rotateX(-3749deg); }
@@ -160,8 +160,8 @@ body {
   .spin-8     { transform: rotateX(-3899deg); }
   .spin-9     { transform: rotateX(-3929deg); }
   .spin-10    { transform: rotateX(-3959deg); }
-  .spin-11    { transform: rotateX(-3989deg); } */
-  .spin-0     { transform: rotateX(-59deg); } 
+  .spin-11    { transform: rotateX(-3989deg); }
+  /* .spin-0     { transform: rotateX(-59deg); } 
   .spin-1     { transform: rotateX(-89deg); }
   .spin-2     { transform: rotateX(-119deg); }
   .spin-3     { transform: rotateX(-149deg); }
@@ -172,7 +172,7 @@ body {
   .spin-8     { transform: rotateX(-299deg); }
   .spin-9     { transform: rotateX(-329deg); }
   .spin-10    { transform: rotateX(-359deg); }
-  .spin-11    { transform: rotateX(-389deg); }
+  .spin-11    { transform: rotateX(-389deg); } */
 
 
   /*=====*/

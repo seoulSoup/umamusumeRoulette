@@ -50,18 +50,18 @@ let DictTotalInfo = {0: {0: ["단거리", "#E0BBE4"],	// 단거리: 오이 제�
 }
 
 let DictLUT = {0: {0: {0: {3: [2]}},	// 삿포로
-				1: {0: {3: [2, 0]}}, 	// 하코다테
-				2: {0: {3: [2]}},	// 후쿠시마
-				3: {1: {0: [4, 2]}, 
-					2: {3: [0]}},	// 니이가타
-				4: {1: {3: [4]}},	// 도쿄
-				5: {0: {1: [2]}},	// 나카야마
-				6: {1: {3: [4, 2]}},	// 츄쿄
-				7: {0: {0: [4, 2], 
-						1: [4]}},	// 교토
-				8: {0: {0: [4, 2]}},	// 한신
-				9: {0: {3: [2]}}	// 코쿠라
-                }, // 단거리
+					1: {0: {3: [2, 0]}}, 	// 하코다테
+					2: {0: {3: [2]}},	// 후쿠시마
+					3: {1: {0: [4, 2]}, 
+						2: {3: [0]}},	// 니이가타
+					4: {1: {3: [4]}},	// 도쿄
+					5: {0: {1: [2]}},	// 나카야마
+					6: {1: {3: [4, 2]}},	// 츄쿄
+					7: {0: {0: [4, 2], 
+							1: [4]}},	// 교토
+					8: {0: {0: [4, 2]}},	// 한신
+					9: {0: {3: [2]}}	// 코쿠라
+					}, // 단거리
                 1: {0: {0: {3: [8, 5]}},	// 삿포로
                     1: {0: {3: [8]}}, 	// 하코다테
                     2: {0: {3: [8]}},	// 후쿠시마
@@ -189,25 +189,29 @@ function shuffle(array) {
 	  [array[i], array[j]] = [array[j], array[i]];
 	}
 }
-function spin(timer) {
-	let ListLUT = [];
-	findRoute(DictLUT, ListLUT);
-	if (COUNT > 1){
-		let ListBefore = DictRoute[COUNT];
-		var flagBreak = false;
-		while (true){
-			for (i = 0; i < ListBefore.length; i++){
-				if (ListBefore[i] == ListLUT[i]){
-					flagBreak = true;
-					break;
-				}
-			}
-			if (~flagBreak) break;
+
+function copyObjectDeep(target) {
+	var result = {};
+	if (typeof target == 'object' && target != null) {
+		for (var prop in target) {
+			result[prop] = copyObjectDeep(target[prop]);
 		}
+		if (Array.isArray(target)) {
+			result = Object.values(result);
+		}
+		
+	} else {
+	  result = target;
 	}
-	
-	
+	return result;
+}
+
+function spin(timer, DictInput) {
+	let ListLUT = [];
+	findRoute(DictInput, ListLUT);
+	delete DictInput[ListLUT[0]];
 	DictRoute[COUNT++] = ListLUT;
+	
 	// console.log(DictRoute);
 	for(var i = 1; i < 6; i ++) {
 		// console.log($('#ring'+i).attr('class'));
@@ -233,6 +237,7 @@ function spin(timer) {
 				seed = (ListAnswerIdx[getSeed(ListAnswerIdx.length)] + 10 ) % 12;
 			}
 		}
+		// Case: Answer is in Ring already and only one
 		else if (ListAnswerIdx.length == 1){
 			var seed = (ListAnswerIdx[0] + 10 ) % 12;
 			// var strSeed = seed;
@@ -257,27 +262,38 @@ function spin(timer) {
 			// console.log(ListCurrentRings[i-1]); // answer
 			
 		}
-		// var spinSeed = seed;
-		// if (seed == oldSeed){
-		// 	// console.log("start");
-		// 	$('#ring'+i)
-		// 	.css('animation','back-spin 1s, spin-' + seed + ' ' + (timer + i*0.5) + 's')
-		// 	// console.log("end");
-		// // 	console.log(oldClass);
-		// // 	console.log("Seed: ", seed);
-		// // 	console.log("oldSeed: ", oldSeed);
-		// // 	// if (flagOldSeed) spinSeed = seed + '-' + 2;
-		// // 	// spinSeed = seed + '-' + 2;
-		// // 	// spinSeed = 0;
-		// // 	console.log(spinSeed);
-		// }
-		// else {
-		// 	// Animation
+		var spinSeed = seed;
+		if (seed == oldSeed){
+			console.log("start");
+			// console.log($('#ring'+i).attr('class'));
+			// $('#ring'+i)
+			// .css('animation','back-spin 1s, spin-' + (seed+1)%12 + ' 1.5s')
+			// .attr('class','ring spin-init');  // Last State (Result)
+			// console.log($('#ring'+i).attr('class'));
+			// $('#ring'+i)
+			// .css('animation','back-spin 1s, spin-' + seed + ' ' + (timer + i*0.5) + 's')
+			// .attr('class','ring spin-' + seed);  // Last State (Result)
+			$('#ring'+i)
+			.css('animation','spin-' + seed + ' ' + (timer + i*0.5) + 's')
+			.attr('class','ring spin-' + seed);  // Last State (Result)
+			// $('#ring'+i)
+			// .attr('class','ring spin-' + seed);  // Last State (Result)
+			// console.log($('#ring'+i).attr('class'));
+			// console.log("end");
+		// 	console.log(oldClass);
+		// 	console.log("Seed: ", seed);
+		// 	console.log("oldSeed: ", oldSeed);
+		// 	// if (flagOldSeed) spinSeed = seed + '-' + 2;
+		// 	// spinSeed = seed + '-' + 2;
+		// 	// spinSeed = 0;
+		// 	console.log(spinSeed);
+		}
+		else {
+			// Animation
 			$('#ring'+i)
 			.css('animation','back-spin 1s, spin-' + seed + ' ' + (timer + i*0.5) + 's')
 			.attr('class','ring spin-' + seed);  // Last State (Result)
-		// }
-		
+		}
 
 		// Current Win position Index: oldSeed + 2
 		// We have to put answer into this position
@@ -288,12 +304,13 @@ function spin(timer) {
 		// 	.css('animation','back-spin 1s, spin-' + seed + ' ' + (timer + i*0.5) + 's')
 		// 	.attr('class','ring spin-' + seed);  // Last State (Result)
 	}
-	// console.log(DictRoute);
+	console.log(DictRoute);
 	// console.log('=====');
 }
 
 // window.onload = function() {
 $(document).ready(function() {
+	let DictLUTCopy = copyObjectDeep(DictLUT);
 	// initiate slots 
 	// ring1:spin6 (-240deg + back60deg : idx - 6 ) Win: ListSlot1[8]
 	// ring2:spin9 (-330deg + back60deg : idx - 9) Win: ListSlot2[11]
@@ -308,20 +325,27 @@ $(document).ready(function() {
 
 	// Button Start
 	$(".go").click(function(){
- 		var timer = 1;
- 		spin(timer);
+		if (COUNT > 5){
+			alert("5번 넘엇다 이기");
+		}
+		else{
+			var timer = 1;
+			spin(timer, DictLUTCopy);
+		}
+ 		
  	});
 
 	// Button Reset
 	$(".goReset").click(function(){
 		COUNT = 1;
 		DictRoute = {};		
+		DictLUTCopy = copyObjectDeep(DictLUT);
 	});
 	
 	// hook result checkbox
  	$('#result').click(function(){
-		// $('#result').is(':checked') = true;
-		// console.log($('#result').is(':checked'));
+		$('#result').is(':checked') = true;
+		console.log($('#result').is(':checked'));
  	})
 
  });
