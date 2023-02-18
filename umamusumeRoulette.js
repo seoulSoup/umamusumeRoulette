@@ -145,7 +145,8 @@ function createSlots (ring, DictTemp) {
 					// .css("object-position", "50% 50%")
 		}
 		else {
-			$(slot).append(content);
+			$(slot).append(i + ':' + content);
+			// $(slot).append(content);
 		}
 		ListSlot.push(genNext);
 		// add the poster to the row
@@ -232,20 +233,20 @@ function spin(timer, DictInput) {
 		}
 		// Case: Answer is in Ring already
 		if (ListAnswerIdx.length > 1 ) {
-			var seed = (ListAnswerIdx[getSeed(ListAnswerIdx.length)] + 10 ) % 12;
+			var seed = (ListAnswerIdx[getSeed(ListAnswerIdx.length)]) % 12;
 			while (seed == oldSeed){
-				seed = (ListAnswerIdx[getSeed(ListAnswerIdx.length)] + 10 ) % 12;
+				seed = (ListAnswerIdx[getSeed(ListAnswerIdx.length)]) % 12;
 			}
 		}
 		// Case: Answer is in Ring already and only one
 		else if (ListAnswerIdx.length == 1){
-			var seed = (ListAnswerIdx[0] + 10 ) % 12;
+			var seed = (ListAnswerIdx[0]) % 12;
 			// var strSeed = seed;
 			// if (flagOldSeed) strSeed = seed + '-' + 2;
 		}
 		// Case: Answer is not in Ring => Ju-jack
 		else {
-			seed = (oldSeed + 5) % 12;
+			seed = (oldSeed + 7) % 12;
 			// var slot = $('#ring'+i).slot;
 			$('#ring'+i+'slot' + (oldSeed + 7) % 12).text(DictTotalInfo[i-1][answer][0]);
 			ListCurrentRings[i-1][(oldSeed + 7) % 12] = [answer, DictTotalInfo[i-1][answer]];
@@ -262,62 +263,27 @@ function spin(timer, DictInput) {
 			// console.log(ListCurrentRings[i-1]); // answer
 			
 		}
-		var spinSeed = seed;
 		if (seed == oldSeed){
-			console.log("start");
+			console.log("start" + seed);
 			// console.log($('#ring'+i).attr('class'));
-			// $('#ring'+i)
-			// .css('animation','back-spin 1s, spin-' + (seed+1)%12 + ' 1.5s')
-			// .attr('class','ring spin-init');  // Last State (Result)
-			// console.log($('#ring'+i).attr('class'));
-			// $('#ring'+i)
-			// .css('animation','back-spin 1s, spin-' + seed + ' ' + (timer + i*0.5) + 's')
-			// .attr('class','ring spin-' + seed);  // Last State (Result)
-			// $('#ring'+i)
-			// .css('animation','spin-' + seed + ' ' + (timer + i*0.5) + 's')
-			// .attr('class','ring spin-' + seed);  // Last State (Result)
-			// $('#ring'+i)
-			// .attr('class','ring spin-' + seed);  // Last State (Result)
-			// console.log($('#ring'+i).attr('class'));
-			// console.log("end");
-		// 	console.log(oldClass);
-		// 	console.log("Seed: ", seed);
-		// 	console.log("oldSeed: ", oldSeed);
-		// 	// if (flagOldSeed) spinSeed = seed + '-' + 2;
-		// 	// spinSeed = seed + '-' + 2;
-		// 	// spinSeed = 0;
-		// 	console.log(spinSeed);
-		$('#ring'+i)
-		.animate([
-				{ transform: 'rotateX(30deg);'},
-				{ transform: 'rotateX(-3659deg)'}
-				],{	
-					duration : 1000,
-					delay:700
-				}
-				);
+			console.log($('#ring'+i).css("transform"));
+			$('#ring'+i)
+			// .css('animation','back-spin 1s, spin-' + seed + ' ' + (timer + i*0.5) + 's');
+			.css('animation','back-spin 2s');
+			// .css('animation','spin-' + seed + ' ' + (timer + i*0.5) + 's');
+			console.log($('#ring'+i).css("transform"));
 		}
 		else {
 			// Animation
-			// $('#ring'+i)
-			// .css('animation','back-spin 1s, spin-' + seed + ' ' + (timer + i*0.5) + 's')
-			// .attr('class','ring spin-' + seed);  // Last State (Result)
-			$('#ring'+i).attr('class','ring spin-' + seed)
 			$('#ring'+i)
-			// document.querySelector("#ring"+i)
-			.animate({
-						transform: 'rotateX(-3659deg)'}
-						, (timer + i*0.5)*1000, "swing");
+			.css('animation','back-spin 1s, spin-' + seed + ' ' + (timer + i*0.5) + 's')
+			.attr('class','ring spin-' + seed);  // Last State (Result)
 		}
 
 		// Current Win position Index: oldSeed + 2
 		// We have to put answer into this position
 		// seed = (12 + ListAnswerIdx[seed])%12;
 
-		// Animation
-		// $('#ring'+i)
-		// 	.css('animation','back-spin 1s, spin-' + seed + ' ' + (timer + i*0.5) + 's')
-		// 	.attr('class','ring spin-' + seed);  // Last State (Result)
 	}
 	console.log(DictRoute);
 	// console.log('=====');
