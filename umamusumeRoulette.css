@@ -142,18 +142,18 @@ body {
   }
   /*=====*/
   .spin-init  { transform: rotateX(0deg); }
-  /* .spin-0     { transform: rotateX(-3659deg); } 
-  .spin-1     { transform: rotateX(-3599deg); }
-  .spin-2     { transform: rotateX(-3629deg); }
-  .spin-3     { transform: rotateX(-3659deg); }
-  .spin-4     { transform: rotateX(-3689deg); }
-  .spin-5     { transform: rotateX(-3719deg); }
-  .spin-6     { transform: rotateX(-3749deg); }
-  .spin-7     { transform: rotateX(-3779deg); }
-  .spin-8     { transform: rotateX(-3809deg); }
-  .spin-9     { transform: rotateX(-3839deg); }
-  .spin-10    { transform: rotateX(-3869deg); }
-  .spin-11    { transform: rotateX(-3899deg); } */
+  /* .spin-0     { transform: rotateX(-3599deg); }
+  .spin-1     { transform: rotateX(-3629deg); }
+  .spin-2     { transform: rotateX(-3659deg); }
+  .spin-3     { transform: rotateX(-3689deg); }
+  .spin-4     { transform: rotateX(-3719deg); }
+  .spin-5     { transform: rotateX(-3749deg); }
+  .spin-6     { transform: rotateX(-3779deg); }
+  .spin-7     { transform: rotateX(-3809deg); }
+  .spin-8     { transform: rotateX(-3839deg); }
+  .spin-9     { transform: rotateX(-3869deg); }
+  .spin-10    { transform: rotateX(-3899deg); }
+  .spin-11    { transform: rotateX(-3659deg); }  */
   .spin-0     { transform: rotateX(-359deg); } 
   .spin-1     { transform: rotateX(-389deg); }
   .spin-2     { transform: rotateX(-419deg); }

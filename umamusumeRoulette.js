@@ -266,12 +266,13 @@ function spin(timer, DictInput) {
 		if (seed == oldSeed){
 			console.log("start" + seed);
 			// console.log($('#ring'+i).attr('class'));
-			console.log($('#ring'+i).css("transform"));
+			// console.log($('#ring'+i).css("transform"));
 			$('#ring'+i)
-			// .css('animation','back-spin 1s, spin-' + seed + ' ' + (timer + i*0.5) + 's');
-			.css('animation','back-spin 2s');
+			.css('animation','back-spin 0s, spin-' + seed + ' ' + (COUNT + i*0.5) + 's')
+			.attr('class','ring spin-' + seed);  // Last State (Result)
+			// .css('animation','back-spin 5s');
 			// .css('animation','spin-' + seed + ' ' + (timer + i*0.5) + 's');
-			console.log($('#ring'+i).css("transform"));
+			// console.log($('#ring'+i).css("transform"));
 		}
 		else {
 			// Animation
