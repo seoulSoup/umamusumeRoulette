@@ -145,8 +145,8 @@ function createSlots (ring, DictTemp) {
 					// .css("object-position", "50% 50%")
 		}
 		else {
-			$(slot).append(i + ':' + content);
-			// $(slot).append(content);
+			// $(slot).append(i + ':' + content);
+			$(slot).append(content);
 		}
 		ListSlot.push(genNext);
 		// add the poster to the row
@@ -206,6 +206,16 @@ function copyObjectDeep(target) {
 	}
 	return result;
 }
+function inputTable(DictRoute){
+	// console.log(DictRoute[Object.keys(DictRoute).length]);
+	// $('#resultTable tr').eq(0).find('th').eq(1).html('Contact Name');
+	let ListRoute = DictRoute[Object.keys(DictRoute).length];
+	for (i = 0; i < 5; i++){
+		// console.log(DictTotalInfo[i][ListRoute[i]][0]);
+		document.getElementById('resultTable').rows[COUNT-1].cells[i].innerHTML = DictTotalInfo[i][ListRoute[i]][0];
+	}
+	
+}
 
 function spin(timer, DictInput) {
 	let ListLUT = [];
@@ -214,6 +224,7 @@ function spin(timer, DictInput) {
 	DictRoute[COUNT++] = ListLUT;
 	
 	// console.log(DictRoute);
+	let ListDupCheck = [];
 	for(var i = 1; i < 6; i ++) {
 		// console.log($('#ring'+i).attr('class'));
 		
@@ -264,7 +275,7 @@ function spin(timer, DictInput) {
 			
 		}
 		if (seed == oldSeed){
-			console.log("start" + seed);
+			// console.log("start" + seed);
 			// console.log($('#ring'+i).attr('class'));
 			// console.log($('#ring'+i).css("transform"));
 			$('#ring'+i)
@@ -273,12 +284,15 @@ function spin(timer, DictInput) {
 			// .css('animation','back-spin 5s');
 			// .css('animation','spin-' + seed + ' ' + (timer + i*0.5) + 's');
 			// console.log($('#ring'+i).css("transform"));
+			ListDupCheck.push(1);
+
 		}
 		else {
 			// Animation
 			$('#ring'+i)
 			.css('animation','back-spin 1s, spin-' + seed + ' ' + (timer + i*0.5) + 's')
 			.attr('class','ring spin-' + seed);  // Last State (Result)
+			ListDupCheck.push(0);
 		}
 
 		// Current Win position Index: oldSeed + 2
@@ -286,7 +300,15 @@ function spin(timer, DictInput) {
 		// seed = (12 + ListAnswerIdx[seed])%12;
 
 	}
-	console.log(DictRoute);
+
+	var idxDup = ListDupCheck.lastIndexOf(1);
+	if (idxDup > 0){
+		$('#ring'+(idxDup+1)).on('animationend', inputTable(DictRoute));
+	}
+	else{
+		$('#ring5').on('animationend', inputTable(DictRoute));
+	}
+	// console.log(DictRoute);
 	// console.log('=====');
 }
 
@@ -299,11 +321,11 @@ $(document).ready(function() {
 	// ring3:spin3 (-150deg + back60deg : idx - 3) Win: ListSlot3[5]
 	// ring4:spin1 (-90deg + back60deg : idx - 1) Win: ListSlot4[3]
 	// ring5:spin2 (-120deg + back60deg : idx - 2) Win: ListSlot5[4]
-	createSlots(document.querySelector('#ring1'), DictTotalInfo["0"]);
-	createSlots(document.querySelector('#ring2'), DictTotalInfo["1"]);
-	createSlots(document.querySelector('#ring3'), DictTotalInfo["2"]);
-	createSlots(document.querySelector('#ring4'), DictTotalInfo["3"]);
-	createSlots(document.querySelector('#ring5'), DictTotalInfo["4"]);
+	createSlots($('#ring1'), DictTotalInfo["0"]);
+	createSlots($('#ring2'), DictTotalInfo["1"]);
+	createSlots($('#ring3'), DictTotalInfo["2"]);
+	createSlots($('#ring4'), DictTotalInfo["3"]);
+	createSlots($('#ring5'), DictTotalInfo["4"]);
 
 	// Button Start
 	$(".go").click(function(){
@@ -325,9 +347,16 @@ $(document).ready(function() {
 	});
 	
 	// hook result checkbox
- 	$('#result').click(function(){
-		$('#result').is(':checked') = true;
-		console.log($('#result').is(':checked'));
+ 	$('#toggle').click(function(){
+		// console.log($('#toggle').is(':checked'));
+		if ($('#toggle').is(':checked')){
+			// $('#resultTable').attr('visible', 'true');
+			$('#resultTable').hide();
+		}
+		else{
+			// $('#resultTable').attr('visible', 'false');
+			$('#resultTable').show();
+		}
  	})
 
  });

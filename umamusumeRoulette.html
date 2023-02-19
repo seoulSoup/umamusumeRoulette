@@ -24,17 +24,65 @@
         </div>
         <div id="buttons">
             <button id="start" class="go">시작</button>
-       
             <button id="reset" class="goReset">결과 리셋</button>
         </div>
-
-        <div>
-            <label>
-                    <input type="checkbox" id="stackResult">
-                    결과 누적
-            </label>
+        <div id="resultText">
+            <div>
+                <input type="checkbox" id="toggle" class="toggle--checkbox">
+                <label for="toggle" class="toggle--label"></label>
+            </div>
+            <div>
+                <b>&nbsp;&nbsp;&nbsp;&nbsp;결과 누적</b>
+            </div>
         </div>
-        
+        <table id ="resultTable" class="table-fill">
+            <thead>
+                <tr>
+                    <th class="text-center">거리</th>
+                    <th class="text-center">개최지</th>
+                    <th class="text-center">방향</th>
+                    <th class="text-center">내/외주로</th>
+                    <th class="text-center">세부 거리</th>
+                </tr>
+            </thead>
+            <tbody class="table-hover">
+                <tr>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                </tr>
+                <tr>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                </tr>
+                <tr>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                </tr>
+                <tr>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                </tr>
+                <tr>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                </tr>
+            </tbody>
+        </table>
         <script type="text/javascript" src="./umamusumeRoulette.js"></script>
         <!-- <script type="text/javascript" src="./Practice.js"></script> -->
     </body>

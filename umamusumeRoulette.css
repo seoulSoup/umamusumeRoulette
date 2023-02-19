@@ -6,7 +6,7 @@
   font-style: normal;
 }
 
-body {
+  body {
     font-family: 'uma';
     margin: 0;
     padding: 0;
@@ -29,11 +29,13 @@ body {
     -webkit-perspective: 1000px;
        -moz-perspective: 1000px;
             perspective: 1000px;    /* Setting the perspective of the contents of the stage but not the stage itself*/
+    perspective-origin: center 285px;
   }
   .perspective-off {
     -webkit-perspective: 0;
        -moz-perspective: 0;
             perspective: 0;
+    perspective-origin: center;
   }
   
   #rotate {
@@ -81,13 +83,14 @@ body {
   #buttons {
     text-align: center;
   }
+  
   .go {
     font-family: 'uma';
     width: 180px;
     height: 50px;
     border-radius: 20px;
     border: none;
-    background-color: #ad48ff;
+    background-color: #f170fd;
     /* background-image: url(./images/button_left.png); */
     display: inline-block;
     /* margin: 0% 30%; */
@@ -99,7 +102,7 @@ body {
     cursor: pointer;
   }
   .go:hover{
-    background-color: #7d0ed8;
+    background-color: #a156df;
     /* background-image: url(./images/button_left.png); */
     box-shadow: rgba(99, 99, 99, 0.4) 0px 2px 8px 0px;
   }
@@ -110,7 +113,7 @@ body {
     height: 50px;
     border-radius: 20px;
     border: none;
-    background-color: #ad48ff;
+    background-color: #f170fd;
     /* background-image: url(./images/button_left.png); */
     display: inline-block;
     /* margin: auto; */
@@ -122,7 +125,7 @@ body {
     cursor: pointer;
   }
   .goReset:hover{
-    background-color: #7d0ed8;
+    background-color: #a156df;
     /* background-image: url(./images/button_left.png); */
     box-shadow: rgba(99, 99, 99, 0.4) 0px 2px 8px 0px;
   }
@@ -131,12 +134,137 @@ body {
     cursor: pointer;
     display: inline-block;
     margin: 20px auto;
-    /* margin-left: auto;
-    margin-right: auto; */
-    width: 50%;
-    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 30%;
+    /* text-align: center; */
   }
 
+  #resultText {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0px auto;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  :root {
+    /** sunny side **/
+    --blue-background: #C2E9F6;
+    --blue-border: #72cce3;
+    --blue-color: #96dcee;
+    --yellow-background: #fffaa8;
+    --yellow-border: #f5eb71;
+    /** dark side **/
+    --indigo-background: #bac1da;
+    --indigo-border: #898ea5;
+    --indigo-color: #bdc1cf;
+    --gray-border: #e8e8ea;
+    --gray-dots: #e8e8ea;
+    /** general **/
+    --white: #fff;
+  }
+
+  .toggle--checkbox {
+    display: none;
+  }
+  .toggle--checkbox:checked {
+    /** This will all flip from sun to moon **/
+    /** Change the label color **/
+  }
+  .toggle--checkbox:checked ~ .background {
+    background: var(--indigo-background);
+  }
+  .toggle--checkbox:checked + .toggle--label {
+    background: var(--indigo-color);
+    border-color: var(--indigo-border);
+    /** Change the cloud to stars **/
+    /** Change the sun into the moon **/
+    /** Show the dimples on the moon **/
+  }
+
+  .toggle--checkbox:checked + .toggle--label:before {
+    background: var(--white);
+    border-color: var(--gray-border);
+    animation-name: switch;
+    animation-duration: 350ms;
+    animation-fill-mode: forwards;
+  }
+  .toggle--checkbox:checked + .toggle--label:after {
+    transition-delay: 350ms;
+    opacity: 1;
+  }
+  .toggle--label {
+    /** Placeholder element, starting at blue **/
+    width: 60px;
+    height: 30px;
+    background: var(--blue-color);
+    border-radius: 30px;
+    border: 4px solid var(--blue-border);
+    display: flex;
+    position: relative;
+    transition: all 350ms ease-in;
+    text-align: right;
+    /** The sun cloud and moon stars **/
+    /** Sun/Moon element **/
+    /** Gray dots on the moon **/
+  }
+  .toggle--label:before {
+    animation-name: reverse;
+    animation-duration: 350ms;
+    animation-fill-mode: forwards;
+    transition: all 350ms ease-in;
+    content: "";
+    width: 18px;
+    height: 18px;
+    border: 3px solid var(--yellow-border);
+    top: 3px;
+    left: 3px;
+    position: absolute;
+    border-radius: 82px;
+    background: var(--yellow-background);
+  }
+  .toggle--label:after {
+    transition-delay: 0ms;
+    transition: all 250ms ease-in;
+    position: relative;
+    content: "";
+    /* box-shadow: var(--gray-dots) -13px 0 0 2px, var(--gray-dots) -24px 14px 0 -2px; */
+    left: 31px;
+    top: 3px;
+    background: transparent;
+    border-radius: 50%;
+    opacity: 0;
+  }
+  
+  @keyframes switch {
+    0% {
+      left: 3px;
+    }
+    60% {
+      left: 3px;
+      width: 32px;
+    }
+    100% {
+      left: 32px;
+      width: 18px;
+    }
+  }
+  @keyframes reverse {
+    0% {
+      left: 32px;
+      width: 18px;
+    }
+    60% {
+      left: 20px;
+      width: 32px;
+    }
+    100% {
+      left: 3px;
+    }
+  }
+  
   .tilted {
     transform: rotateY(45deg);
   }
@@ -231,3 +359,127 @@ body {
       0%    { transform: rotateX(30deg); }
       100%  { transform: rotateX(-3929deg); }
   }
+
+  
+/*** Table Styles **/
+
+.table-fill {
+ background: white;
+ border-radius:3px;
+ border-collapse: collapse;
+ height: 320px;
+ margin: auto;
+ max-width: 800px;
+ padding:5px;
+ width: 100%;
+ box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+ animation: float 5s infinite;
+}
+
+th {
+ color:#D5DDE5;;
+ background:#e76cff;
+ border-bottom:4px solid #d3f19ac5;
+ border-right: 2px solid #ffffff;
+ font-size:23px;
+ font-weight: 100;
+ padding:24px;
+ text-align:left;
+ text-shadow: 0 1px 1px rgba(250, 113, 255, 0.87);
+ vertical-align:middle;
+}
+
+th:first-child {
+ border-top-left-radius:5px;
+}
+
+th:last-child {
+ border-top-right-radius:5px;
+ border-right:none;
+}
+ 
+tr {
+ border-top: 2px solid #c1d1c1;
+ border-bottom: 2px solid #c1d1c1;
+ color:#666B85;
+ font-size:16px;
+ font-weight:normal;
+ text-shadow: 0 1px 1px rgba(250, 113, 255, 0.87);
+}
+
+tr:hover td {
+ background:#f1c3ff;
+ color:#FFFFFF;
+ /* border-top: 3px solid #22262e; */
+}
+
+tr:first-child {
+ border-top:none;
+}
+
+tr:last-child {
+ border-bottom:none;
+}
+
+tr:nth-child(odd) td {
+ background:#fdeaffce;
+}
+
+tr:nth-child(odd):hover td {
+ background:#f1c3ff;
+}
+
+tr:last-child td:first-child {
+ border-bottom-left-radius:3px;
+}
+
+tr:last-child td:last-child {
+ border-bottom-right-radius:3px;
+}
+
+td {
+ background:#FFFFFF;
+ padding:20px;
+ text-align:left;
+ vertical-align:middle;
+ font-weight:300;
+ font-size:18px;
+ text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+ border-right: 1px solid #c1d1c1;
+}
+
+td:last-child {
+ border-right: 0px;
+}
+
+th.text-left {
+ text-align: left;
+}
+
+th.text-center {
+ text-align: center;
+}
+
+th.text-right {
+ text-align: right;
+}
+
+td.text-left {
+ text-align: left;
+}
+
+td.text-center {
+ text-align: center;
+}
+
+td.text-right {
+ text-align: right;
+}
+
+.table-visible-on{
+  visibility: visible;
+}
+
+.table-visible-off{
+  visibility: hidden;
+}
