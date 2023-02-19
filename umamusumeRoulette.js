@@ -344,6 +344,8 @@ $(document).ready(function() {
 		COUNT = 1;
 		DictRoute = {};		
 		DictLUTCopy = copyObjectDeep(DictLUT);
+		$("#resultTable tbody td").text('');
+		
 	});
 	
 	// hook result checkbox
