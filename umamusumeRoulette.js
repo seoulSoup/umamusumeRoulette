@@ -236,7 +236,7 @@ function spin(timer, DictInput) {
 	DictRoute[COUNT++] = ListLUT;
 	
 	// console.log(DictRoute);
-	let ListDupCheck = [];
+	var timeAnimation = 3.5;
 	for(var i = 1; i < 6; i ++) {
 		// console.log($('#ring'+i).attr('class'));
 		
@@ -296,7 +296,7 @@ function spin(timer, DictInput) {
 			// .css('animation','back-spin 5s');
 			// .css('animation','spin-' + seed + ' ' + (timer + i*0.5) + 's');
 			// console.log($('#ring'+i).css("transform"));
-			ListDupCheck.push(1);
+			if (timeAnimation < (COUNT + i*0.5)) timeAnimation = (COUNT + i*0.5);
 
 		}
 		else {
@@ -304,22 +304,15 @@ function spin(timer, DictInput) {
 			$('#ring'+i)
 			.css('animation','back-spin 1s, spin-' + seed + ' ' + (timer + i*0.5) + 's')
 			.attr('class','ring spin-' + seed);  // Last State (Result)
-			ListDupCheck.push(0);
+			if (timeAnimation < (timer + i*0.5)) timeAnimation = (timer + i*0.5);
 		}
-
+		
 		// Current Win position Index: oldSeed + 2
 		// We have to put answer into this position
 		// seed = (12 + ListAnswerIdx[seed])%12;
 
 	}
-
-	var idxDup = ListDupCheck.lastIndexOf(1);
-	if (idxDup > 0){
-		$('#ring'+(idxDup+1)).on('animationend', inputTable(DictRoute));
-	}
-	else{
-		$('#ring5').on('animationend', inputTable(DictRoute));
-	}
+	setTimeout(() => inputTable(DictRoute), timeAnimation*1000);
 	// console.log(DictRoute);
 	// console.log('=====');
 }
