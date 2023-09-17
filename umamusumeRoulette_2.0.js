@@ -375,8 +375,7 @@ function spin(timer, DictInput) {
 function createCardSet(strCardSet) {
 	e = $("<div></div>")
 	$("#overlay").append(e);
-	e.attr('id', strCardSet);
-	e.attr('class', strCardSet);
+	e.attr('id', strCardSet).attr('class', strCardSet);
 	e.show()
 }
 
