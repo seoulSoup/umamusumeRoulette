@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="./umamusumeRoulette_2.0.css">        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>     
+    </head>
+    <!-- <body> <py-script src = "SlotMachine.py"></py-script> </body> -->
+    <style>
+        body {
+            background-image: url('assets/background/rouletteBack.png');
+            background-repeat: no-repeat;
+            /* background-attachment: fixed; */
+            background-size: cover, 100%;
+            /* background-size: cover; */
+            background-color: rgba(255,255,255,0.6);
+            background-blend-mode: lighten;
+        }
+    </style>
+    <body translate="no">
+        <pre id="console"></pre>
+        <img id="mainGate" src="./assets/logoGaejakdu.png">
+        <div id="overlay"></div>
+        <div id="cardSample" class="card"></div>
+        <div id="stage" class="perspective-on">
+            <div id="rotate">
+                <div id="ring1" class="ring spin-6" style="animation: 1s ease 0s 1 normal none running back-spin, 1.5s ease 0s 1 normal none running spin-6;"></div>
+                <div id="ring2" class="ring spin-9" style="animation: 1s ease 0s 1 normal none running back-spin, 2s ease 0s 1 normal none running spin-9;"></div>
+                <div id="ring3" class="ring spin-3" style="animation: 1s ease 0s 1 normal none running back-spin, 2.5s ease 0s 1 normal none running spin-3;"></div>
+                <div id="ring4" class="ring spin-1" style="animation: 1s ease 0s 1 normal none running back-spin, 3s ease 0s 1 normal none running spin-1;"></div>
+                <div id="ring5" class="ring spin-2" style="animation: 1s ease 0s 1 normal none running back-spin, 3.5s ease 0s 1 normal none running spin-2;"></div>
+                <!-- spin-10: index0 to bottom-->
+                <!-- <div id="ring1" class="ring spin-0"></div>
+                <div id="ring2" class="ring spin-0"></div>
+                <div id="ring3" class="ring spin-0"></div>
+                <div id="ring4" class="ring spin-0"></div>
+                <div id="ring5" class="ring spin-0"></div> -->
+        </div>
+        <div id="buttons">
+            <button id="start" class="go">시작</button>
+            <button id="reset" class="goReset">결과 리셋</button>
+        </div>
+        <div id="resultText">
+            <div>
+                <input type="checkbox" id="toggle" class="toggle--checkbox">
+                <label for="toggle" class="toggle--label"></label>
+            </div>
+            <div>
+                <b>&nbsp;&nbsp;&nbsp;&nbsp;결과 누적</b>
+            </div>
+        </div>
+        <table id ="resultTable" class="table-fill">
+            <thead>
+                <tr>
+                    <th class="text-center">거리</th>
+                    <th class="text-center">개최지</th>
+                    <th class="text-center">방향</th>
+                    <th class="text-center">내/외주로</th>
+                    <th class="text-center">세부 거리</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                </tr>
+                <tr>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                </tr>
+                <tr>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                </tr>
+                <tr>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                </tr>
+                <tr>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                </tr>
+            </tbody>
+        </table>
+        <script type="text/javascript" src="./umamusumeRoulette_2.0.js"></script>
+        <!-- <script type="text/javascript" src="./Practice.js"></script> -->
+    </body>
+</html>

@@ -1,0 +1,520 @@
+@font-face {
+  font-family: 'uma';
+  src: url('Title_Medium.otf');
+  /* src: url('Title_Bold.woff'); */
+  font-weight: normal;
+  font-style: normal;
+}
+
+  body {
+    font-family: 'uma';
+    margin: 0;
+    padding: 0;
+  }
+  #mainGate {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 30%;
+  }
+  #stage {
+    position:relative;
+    top: -60px;
+    margin: 0 auto;
+    width: 50%;
+    padding: 0 0 40px;
+  }
+  
+  .perspective-on {
+    -webkit-perspective: 1000px;
+       -moz-perspective: 1000px;
+            perspective: 1000px;    /* Setting the perspective of the contents of the stage but not the stage itself*/
+    perspective-origin: center 285px;
+  }
+  .perspective-off {
+    -webkit-perspective: 0;
+       -moz-perspective: 0;
+            perspective: 0;
+    perspective-origin: center;
+  }
+  
+  #rotate {
+    font-family: 'uma';
+    margin: 0 auto 0;
+    width: 650px;
+    height: 220px;
+    padding-top: 200px;
+    /* Ensure that we're in 3D space */
+    transform-style: preserve-3d;
+  }
+
+  #overlay {
+    position: fixed; /* Sit on top of the page content */
+    display: none; /* Hidden by default */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+    z-index: 15; /* Specify a stack order in case you're using a different order for other elements */
+    cursor: pointer; /* Add a pointer on hover */
+  }
+  
+  .card {
+    position: absolute;
+    width: 400px;
+    height: 512px;
+    /* box-sizing: border-box; */
+    opacity: 0.95;
+    color: rgba(0,0,0,0.9);
+    /* background: #ff00ff; */
+    background-image: url(./assets/cardSample.png);
+    /* border: solid 2px #000; */
+    font-size: 27px;
+    /* font-weight: bold; */
+    line-height: 80px;
+    margin: 0;
+    text-align: center;
+    /* -webkit-backface-visibility: hidden; */
+            /* backface-visibility: hidden; */
+    display: none;
+    z-index: 20;
+  }
+  .ring {
+    margin: 0 auto;
+    height: 80px;
+    width: 129px;
+    float: left;
+    transform-style: preserve-3d;
+  
+  }
+  .slot {
+    position: absolute;
+    width: 130px;
+    height: 80px;
+    /* box-sizing: border-box; */
+    opacity: 0.95;
+    color: rgba(0,0,0,0.9);
+    background: #c25656;
+    /* background-image: url(./images/button_left.png); */
+    /* border: solid 2px #000; */
+    font-size: 27px;
+    /* font-weight: bold; */
+    line-height: 80px;
+    margin: 0;
+    text-align: center;
+    -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+  }
+  
+  .backface-on {
+    -webkit-backface-visibility: visible;
+            backface-visibility: visible;
+  }
+  
+  #buttons {
+    text-align: center;
+  }
+  
+  
+  .go {
+    font-family: 'uma';
+    width: 180px;
+    height: 50px;
+    border-radius: 20px;
+    border: none;
+    background-color: #f170fd;
+    /* background-image: url(./images/button_left.png); */
+    display: inline-block;
+    /* margin: 0% 30%; */
+    /* margin-left: 30%; */
+    padding:10px 30px;
+    /* font: 20px 'uma'; */
+    font-size: 25px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .go:hover{
+    background-color: #a156df;
+    /* background-image: url(./images/button_left.png); */
+    box-shadow: rgba(99, 99, 99, 0.4) 0px 2px 8px 0px;
+  }
+  
+  .goReset {
+    font-family: 'uma';
+    width: 180px;
+    height: 50px;
+    border-radius: 20px;
+    border: none;
+    background-color: #f170fd;
+    /* background-image: url(./images/button_left.png); */
+    display: inline-block;
+    /* margin: auto; */
+    margin-left: 20px;
+    padding:10px 30px;
+    /* font: 20px 'uma'; */
+    font-size: 25px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .goReset:hover{
+    background-color: #a156df;
+    /* background-image: url(./images/button_left.png); */
+    box-shadow: rgba(99, 99, 99, 0.4) 0px 2px 8px 0px;
+  }
+
+  label {
+    cursor: pointer;
+    display: inline-block;
+    margin: 20px auto;
+    margin-left: auto;
+    margin-right: auto;
+    width: 30%;
+    /* text-align: center; */
+  }
+
+  #resultText {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0px auto;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  :root {
+    /** sunny side **/
+    --blue-background: #C2E9F6;
+    --blue-border: #72cce3;
+    --blue-color: #96dcee;
+    --yellow-background: #fffaa8;
+    --yellow-border: #f5eb71;
+    /** dark side **/
+    --indigo-background: #bac1da;
+    --indigo-border: #898ea5;
+    --indigo-color: #bdc1cf;
+    --gray-border: #e8e8ea;
+    --gray-dots: #e8e8ea;
+    /** general **/
+    --white: #fff;
+  }
+
+  .toggle--checkbox {
+    display: none;
+  }
+  .toggle--checkbox:checked {
+    /** This will all flip from sun to moon **/
+    /** Change the label color **/
+  }
+  .toggle--checkbox:checked ~ .background {
+    background: var(--indigo-background);
+  }
+  .toggle--checkbox:checked + .toggle--label {
+    background: var(--indigo-color);
+    border-color: var(--indigo-border);
+    /** Change the cloud to stars **/
+    /** Change the sun into the moon **/
+    /** Show the dimples on the moon **/
+  }
+
+  .toggle--checkbox:checked + .toggle--label:before {
+    background: var(--white);
+    border-color: var(--gray-border);
+    animation-name: switch;
+    animation-duration: 350ms;
+    animation-fill-mode: forwards;
+  }
+  .toggle--checkbox:checked + .toggle--label:after {
+    transition-delay: 350ms;
+    opacity: 1;
+  }
+  .toggle--label {
+    /** Placeholder element, starting at blue **/
+    width: 60px;
+    height: 30px;
+    background: var(--blue-color);
+    border-radius: 30px;
+    border: 4px solid var(--blue-border);
+    display: flex;
+    position: relative;
+    transition: all 350ms ease-in;
+    text-align: right;
+    /** The sun cloud and moon stars **/
+    /** Sun/Moon element **/
+    /** Gray dots on the moon **/
+  }
+  .toggle--label:before {
+    animation-name: reverse;
+    animation-duration: 350ms;
+    animation-fill-mode: forwards;
+    transition: all 350ms ease-in;
+    content: "";
+    width: 18px;
+    height: 18px;
+    border: 3px solid var(--yellow-border);
+    top: 3px;
+    left: 3px;
+    position: absolute;
+    border-radius: 82px;
+    background: var(--yellow-background);
+  }
+  .toggle--label:after {
+    transition-delay: 0ms;
+    transition: all 250ms ease-in;
+    position: relative;
+    content: "";
+    /* box-shadow: var(--gray-dots) -13px 0 0 2px, var(--gray-dots) -24px 14px 0 -2px; */
+    left: 31px;
+    top: 3px;
+    background: transparent;
+    border-radius: 50%;
+    opacity: 0;
+  }
+  
+  @keyframes switch {
+    0% {
+      left: 3px;
+    }
+    60% {
+      left: 3px;
+      width: 32px;
+    }
+    100% {
+      left: 32px;
+      width: 18px;
+    }
+  }
+  @keyframes reverse {
+    0% {
+      left: 32px;
+      width: 18px;
+    }
+    60% {
+      left: 20px;
+      width: 32px;
+    }
+    100% {
+      left: 3px;
+    }
+  }
+  
+  .tilted {
+    transform: rotateY(45deg);
+  }
+  /*=====*/
+  .spin-init  { transform: rotateX(0deg); }
+  /* .spin-0     { transform: rotateX(-3599deg); }
+  .spin-1     { transform: rotateX(-3629deg); }
+  .spin-2     { transform: rotateX(-3659deg); }
+  .spin-3     { transform: rotateX(-3689deg); }
+  .spin-4     { transform: rotateX(-3719deg); }
+  .spin-5     { transform: rotateX(-3749deg); }
+  .spin-6     { transform: rotateX(-3779deg); }
+  .spin-7     { transform: rotateX(-3809deg); }
+  .spin-8     { transform: rotateX(-3839deg); }
+  .spin-9     { transform: rotateX(-3869deg); }
+  .spin-10    { transform: rotateX(-3899deg); }
+  .spin-11    { transform: rotateX(-3659deg); }  */
+  .spin-0     { transform: rotateX(-359deg); } 
+  .spin-1     { transform: rotateX(-389deg); }
+  .spin-2     { transform: rotateX(-419deg); }
+  .spin-3     { transform: rotateX(-449deg); }
+  .spin-4     { transform: rotateX(-479deg); }
+  .spin-5     { transform: rotateX(-509deg); }
+  .spin-6     { transform: rotateX(-539deg); }
+  .spin-7     { transform: rotateX(-569deg); }
+  .spin-8     { transform: rotateX(-599deg); }
+  .spin-9     { transform: rotateX(-629deg); }
+  .spin-10    { transform: rotateX(-659deg); }
+  .spin-11    { transform: rotateX(-689deg); }
+
+
+  /*=====*/
+  @keyframes back-spin {
+      0%    { transform: rotateX(0deg); }
+      100%  { transform: rotateX(30deg); }
+  }
+  @keyframes tiltin {
+      0%    { transform: rotateY(0deg);}
+      50%   { transform: rotateY(0deg);}
+      100%  { transform: rotateY(45deg);}
+  }
+  @keyframes tiltout {
+      0%    { transform: rotateY(45deg);}
+      100%  { transform: rotateY(0deg);}
+  }
+ 
+  @keyframes spin-0 {
+      0%    { transform: rotateX(30deg); }
+      100%  { transform: rotateX(-3599deg); }
+  }
+  @keyframes spin-1 {
+    0%    { transform: rotateX(30deg); }
+    100%  { transform: rotateX(-3629deg); }
+  }
+  @keyframes spin-2 {
+      0%    { transform: rotateX(30deg); }
+      100%  { transform: rotateX(-3659deg); }
+  }
+  @keyframes spin-3 {
+    0%    { transform: rotateX(30deg); }
+    100%  { transform: rotateX(-3689deg); }
+  }
+  @keyframes spin-4 {
+      0%    { transform: rotateX(30deg); }
+      100%  { transform: rotateX(-3719deg); }
+  }
+  @keyframes spin-5 {
+      0%    { transform: rotateX(30deg); }
+      100%  { transform: rotateX(-3749deg); }
+  }
+  @keyframes spin-6 {
+    0%    { transform: rotateX(30deg); }
+    100%  { transform: rotateX(-3779deg); }
+  }
+  @keyframes spin-7 {
+      0%    { transform: rotateX(30deg); }
+      100%  { transform: rotateX(-3809deg); }
+  }
+  @keyframes spin-8 {
+      0%    { transform: rotateX(30deg); }
+      100%  { transform: rotateX(-3839deg); }
+  }
+  @keyframes spin-9 {
+      0%    { transform: rotateX(30deg); }
+      100%  { transform: rotateX(-3869deg); }
+  }
+  @keyframes spin-10 {
+      0%    { transform: rotateX(30deg); }
+      100%  { transform: rotateX(-3899deg); }
+  }
+  @keyframes spin-11 {
+      0%    { transform: rotateX(30deg); }
+      100%  { transform: rotateX(-3929deg); }
+  }
+
+  
+/*** Table Styles **/
+
+.table-fill {
+ background: white;
+ border-radius:3px;
+ border-collapse: collapse;
+ height: 320px;
+ margin: auto;
+ max-width: 800px;
+ padding:5px;
+ width: 100%;
+ box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+ animation: float 5s infinite;
+}
+
+th {
+ color:#D5DDE5;;
+ background:#e76cff;
+ border-bottom:4px solid #d3f19ac5;
+ border-right: 2px solid #ffffff;
+ font-size:23px;
+ font-weight: 100;
+ padding:24px;
+ text-align:left;
+ text-shadow: 0 1px 1px rgba(250, 113, 255, 0.87);
+ vertical-align:middle;
+}
+
+th:first-child {
+ border-top-left-radius:5px;
+}
+
+th:last-child {
+ border-top-right-radius:5px;
+ border-right:none;
+}
+ 
+tr {
+ border-top: 2px solid #c1d1c1;
+ border-bottom: 2px solid #c1d1c1;
+ color:#666B85;
+ font-size:16px;
+ font-weight:normal;
+ text-shadow: 0 1px 1px rgba(250, 113, 255, 0.87);
+}
+
+tr:hover td {
+ background:#f1c3ff;
+ color:#FFFFFF;
+ /* border-top: 3px solid #22262e; */
+}
+
+tr:first-child {
+ border-top:none;
+}
+
+tr:last-child {
+ border-bottom:none;
+}
+
+tr:nth-child(odd) td {
+ background:#fdeaffce;
+}
+
+tr:nth-child(odd):hover td {
+ background:#f1c3ff;
+}
+
+tr:last-child td:first-child {
+ border-bottom-left-radius:3px;
+}
+
+tr:last-child td:last-child {
+ border-bottom-right-radius:3px;
+}
+
+td {
+ background:#FFFFFF;
+ padding:20px;
+ text-align:left;
+ vertical-align:middle;
+ font-weight:300;
+ font-size:18px;
+ text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+ border-right: 1px solid #c1d1c1;
+}
+
+td:last-child {
+ border-right: 0px;
+}
+
+th.text-left {
+ text-align: left;
+}
+
+th.text-center {
+ text-align: center;
+}
+
+th.text-right {
+ text-align: right;
+}
+
+td.text-left {
+ text-align: left;
+}
+
+td.text-center {
+ text-align: center;
+}
+
+td.text-right {
+ text-align: right;
+}
+
+.table-visible-on{
+  visibility: visible;
+}
+
+.table-visible-off{
+  visibility: hidden;
+}
