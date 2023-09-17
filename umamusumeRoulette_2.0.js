@@ -5,47 +5,47 @@ const REEL_RADIUS = 149;
 var COUNT = 1;
 let DictRoute = {}; // Route Append
 let ListCurrentRings = []; // Route Append
-const consoleDiv = document.querySelector("#console")
+const consoleDiv = document.querySelector('#console')
 const consoleToHtml = function() {
     Array.from(arguments).forEach(el => {
-        const insertValue = typeof el === "object" ? JSON.stringify(el) : el
+        const insertValue = typeof el === 'object' ? JSON.stringify(el) : el
 		consoleDiv.textContent += insertValue
     })
 	
-    consoleDiv.textContent += "\n"
+    consoleDiv.textContent += '\n'
 }
 window.console.log = consoleToHtml
 
 					// index0: 거리
-let DictTotalInfo = {0: {0: ["단거리", "#E0BBE4"],	// 단거리: 오이 제외
-						1: ["마일", "#957DAD"],		// 마일: 오이 제외
-						2: ["중거리", "#D291BC"],	// 중거리: 오이 제외
-						3: ["장거리", "#FEC8D8"],			// 장거리: 니이가타, 츄쿄, 오이 제외
-						4: ["더트", "#FFDFD3"], 		// 더트: 삿포로, 코쿠라 제외
+let DictTotalInfo = {0: {0: ['단거리', '#E0BBE4'],	// 단거리: 오이 제외
+						1: ['마일', '#957DAD'],		// 마일: 오이 제외
+						2: ['중거리', '#D291BC'],	// 중거리: 오이 제외
+						3: ['장거리', '#FEC8D8'],			// 장거리: 니이가타, 츄쿄, 오이 제외
+						4: ['더트', '#FFDFD3'], 		// 더트: 삿포로, 코쿠라 제외
 						},
 						// index1: 경기장
-					1: {0: ["삿포로", "#C7E3A4"],
-						1: ["하코다테", "#FDF6C3"],
-						2: ["후쿠시마", "#FFFEF7"],
-						3: ["니이가타", "#F8CBEE"],
-						4: ["도쿄", "#CAC3F7"],
-						5: ["나카야마", "#C3E9F8"],
-						6: ["츄쿄", "#F075AB"],
-						7: ["교토", "#F2BD93"],
-						8: ["한신", "#FAD8CC"],
-						9: ["코쿠라", "#F5A6CD"],
-						10: ["오이", "#D879C9"],
-						11: [`url("https://github.com/seoulSoup/umamusumeRoulette/blob/main/assets/icon(squre)/big.png?raw=true)`, "#CAC3F7"]
+					1: {0: ['삿포로', '#C7E3A4'],
+						1: ['하코다테', '#FDF6C3'],
+						2: ['후쿠시마', '#FFFEF7'],
+						3: ['니이가타', '#F8CBEE'],
+						4: ['도쿄', '#CAC3F7'],
+						5: ['나카야마', '#C3E9F8'],
+						6: ['츄쿄', '#F075AB'],
+						7: ['교토', '#F2BD93'],
+						8: ['한신', '#FAD8CC'],
+						9: ['코쿠라', '#F5A6CD'],
+						10: ['오이', '#D879C9'],
+						11: [`url('https://github.com/seoulSoup/umamusumeRoulette/blob/main/assets/icon(squre)/big.png?raw=true)`, '#CAC3F7']
 						},
 						// index2: 방향
-					2: {0: ["시계 (우)", "#F595B2"], 1: ["반시계 (좌)", "#FFB3B3"], 2: ["직선", "#FFF1BA"]},
+					2: {0: ['시계 (우)', '#F595B2'], 1: ['반시계 (좌)', '#FFB3B3'], 2: ['직선', '#FFF1BA']},
 						// index3: 내/외
-					3: {0: ["내주로", "#BEE3ED"], 1: ["외주로", "#AFADDE"], 2: ["외->내", "#FFA694"], 3: ["없음", "#BFEDBE"]},
+					3: {0: ['내주로', '#BEE3ED'], 1: ['외주로', '#AFADDE'], 2: ['외->내', '#FFA694'], 3: ['없음', '#BFEDBE']},
 						// index4: 세부 거리
-					4: {0: ["1000m", "#E0BBE4"], 1: ["1150m", "#957DAD"], 2: ["1200m", "#D291BC"], 3: ["1300m", "#FEC8D8"], 4: ["1400m", "#FFDFD3"], 5: ["1500m", "#C7E3A4"],
-						6: ["1600m", "#FDF6C3"], 7: ["1700m", "#FFFEF7"], 8: ["1800m", "#F8CBEE"], 9: ["1900m", "#CAC3F7"], 10: ["2000m", "#C3E9F8"], 11: ["2100m", "#F075AB"],
-						12: ["2200m", "#F2BD93"], 13: ["2300m", "#FAD8CC"], 14: ["2400m", "#F5A6CD"], 15: ["2500m", "#D879C9"], 16: ["2600m", "#F595B2"], 17: ["3000m", "#FFB3B3"],
-						18: ["3200m", "#BADB9E"], 19: ["3400m", "#FDEEB4"], 20: ["3600m", "#FAADE3"]
+					4: {0: ['1000m', '#E0BBE4'], 1: ['1150m', '#957DAD'], 2: ['1200m', '#D291BC'], 3: ['1300m', '#FEC8D8'], 4: ['1400m', '#FFDFD3'], 5: ['1500m', '#C7E3A4'],
+						6: ['1600m', '#FDF6C3'], 7: ['1700m', '#FFFEF7'], 8: ['1800m', '#F8CBEE'], 9: ['1900m', '#CAC3F7'], 10: ['2000m', '#C3E9F8'], 11: ['2100m', '#F075AB'],
+						12: ['2200m', '#F2BD93'], 13: ['2300m', '#FAD8CC'], 14: ['2400m', '#F5A6CD'], 15: ['2500m', '#D879C9'], 16: ['2600m', '#F595B2'], 17: ['3000m', '#FFB3B3'],
+						18: ['3200m', '#BADB9E'], 19: ['3400m', '#FDEEB4'], 20: ['3600m', '#FAADE3']
 						}
 }
 
@@ -201,12 +201,12 @@ function createSlots (ring, DictTemp) {
 		slot.style.backgroundColor = genNext[1][1];
 		// setup the number to show inside the slots
 		var content = genNext[1][0]
-		if (content.includes("url")){
-			$(slot).css("background-image", content)
-					.css("background-size", "contain")
-					.css("background-position", "center")
-					.css("background-repeat", "no-repeat")
-					// .css("object-position", "50% 50%")
+		if (content.includes('url')){
+			$(slot).css('background-image', content)
+					.css('background-size', 'contain')
+					.css('background-position', 'center')
+					.css('background-repeat', 'no-repeat')
+					// .css('object-position', '50% 50%')
 		}
 		else {
 			// $(slot).append(i + ':' + content);
@@ -295,7 +295,7 @@ function spin(timer, DictInput) {
 		let ListCurrentRing = ListCurrentRings[i-1];
 		var answer = ListLUT[i-1];
 		// Condition
-		var oldClass = $('#ring'+i).attr('class').split("-");
+		var oldClass = $('#ring'+i).attr('class').split('-');
 		var oldSeed = Number(oldClass[1]);
 		// Check Slot Class is orig or rev
 		var flagOldSeed = true;
@@ -325,29 +325,29 @@ function spin(timer, DictInput) {
 			// var slot = $('#ring'+i).slot;
 			$('#ring'+i+'slot' + (oldSeed + 7) % 12).text(DictTotalInfo[i-1][answer][0]);
 			ListCurrentRings[i-1][(oldSeed + 7) % 12] = [answer, DictTotalInfo[i-1][answer]];
-			// $('#ring'+i+'slot5').text() = "0";
+			// $('#ring'+i+'slot5').text() = '0';
 			// console.log($('#ring'+i+'slot5').text);
 			// var seed = getSeed(ListAnswerIdx.length);
 
-			// $('#ring'+i+'slot5').css("background-image", `url("https://github.com/seoulSoup/umamusumeRoulette/blob/main/assets/icon(squre)/big.png?raw=true)`);
-			// 	$(slot).css("background-image", content)
-			// 			.css("background-size", "contain")
-			// 			.css("background-position", "center")
-			// 			.css("background-repeat", "no-repeat")
+			// $('#ring'+i+'slot5').css('background-image', `url('https://github.com/seoulSoup/umamusumeRoulette/blob/main/assets/icon(squre)/big.png?raw=true)`);
+			// 	$(slot).css('background-image', content)
+			// 			.css('background-size', 'contain')
+			// 			.css('background-position', 'center')
+			// 			.css('background-repeat', 'no-repeat')
 			// }
 			// console.log(ListCurrentRings[i-1]); // answer
 			
 		}
 		if (seed == oldSeed){
-			// console.log("start" + seed);
+			// console.log('start' + seed);
 			// console.log($('#ring'+i).attr('class'));
-			// console.log($('#ring'+i).css("transform"));
+			// console.log($('#ring'+i).css('transform'));
 			$('#ring'+i)
 			.css('animation','back-spin 0s, spin-' + seed + ' ' + (COUNT + i*0.5) + 's')
 			.attr('class','ring spin-' + seed);  // Last State (Result)
 			// .css('animation','back-spin 5s');
 			// .css('animation','spin-' + seed + ' ' + (timer + i*0.5) + 's');
-			// console.log($('#ring'+i).css("transform"));
+			// console.log($('#ring'+i).css('transform'));
 			if (timeAnimation < (COUNT + i*0.5)) timeAnimation = (COUNT + i*0.5);
 
 		}
@@ -373,10 +373,19 @@ function spin(timer, DictInput) {
 	// console.log('=====');
 }
 function createCardSet(strCardSet) {
-	e = $("<div></div>")
-	$("#overlay").append(e);
-	e.attr('id', strCardSet).attr('class', strCardSet);
-	e.show()
+	let cardSet = $('<div></div>')
+	$('#overlay').append(cardSet);
+	cardSet.attr('id', strCardSet).attr('class', strCardSet);
+	for (let i=0; i < 4; i++) {
+		let card = $('<div></div>')
+		cardSet.append(card);
+		card.attr('id', 'card' + i).attr('class', 'card');
+		// card.css('width', 500+i*100);
+		card.show();
+	}
+	const randomIdx = Math.floor(Math.random() * 5);
+	// Spread Animation
+	// Spin Animation
 }
 
 function resetCardSet(cardSet) {
@@ -385,24 +394,38 @@ function resetCardSet(cardSet) {
 
 function cardOverlay() {
 	// Black After Roulette
-	// console.log($("#overlay"));
-	$("#overlay").show();
-	// $("#cardSample").show();
-	// const flagPick = createCardSet("#cardSetCategory")
-	const flagPick = createCardSet("card")
-	if (flagPick) {
-		const flagPick2 = createCardSet("cardSetPick");
-	}
-	// console.log($("#overlay"));
-	$("#overlay").on("dblclick", () => {
+	// console.log($('#overlay'));
+	$('#overlay').show();
+	// $('#cardSample').show();
+	// const flagPick = createCardSet('#cardSetCategory')
+	const flagPick = createCardSet('cardSet')
+	$('#overlay').on('click', (event) => {
+		if (flagPick) {
+			const flagPick2 = createCardSet('cardSetPick');
+		}
+		var x = event.pageX;
+		var y = event.pageY;
+		var biwacon = $('<div></div>');
+		$('#overlay').append(biwacon);
+		biwacon.attr('class', 'biwacon')
+				.css('left', x + 'px')
+				.css('top', y + 'px')
+				.css('animation', 'fadeOut 0.9s');
+		
+		setTimeout(() => {
+			biwacon.remove();
+		}, 800);
+	});	
+	// console.log($('#overlay'));
+	$('#overlay').on('dblclick', () => {
 		////////////////////////////////
 		// Task: skip action instead of hide
-		$("#overlay").hide();
+		$('#overlay').hide();
 		////////////////////////////////
 		
 	});
 	
-	// $("#overlay").attr("display", "block");
+	// $('#overlay').attr('display', 'block');
 }
 
 // window.onload = function() {
@@ -414,30 +437,37 @@ $(document).ready(function() {
 	// ring3:spin3 (-150deg + back60deg : idx - 3) Win: ListSlot3[5]
 	// ring4:spin1 (-90deg + back60deg : idx - 1) Win: ListSlot4[3]
 	// ring5:spin2 (-120deg + back60deg : idx - 2) Win: ListSlot5[4]
-	createSlots($('#ring1'), DictTotalInfo["0"]);
-	createSlots($('#ring2'), DictTotalInfo["1"]);
-	createSlots($('#ring3'), DictTotalInfo["2"]);
-	createSlots($('#ring4'), DictTotalInfo["3"]);
-	createSlots($('#ring5'), DictTotalInfo["4"]);
+	createSlots($('#ring1'), DictTotalInfo['0']);
+	createSlots($('#ring2'), DictTotalInfo['1']);
+	createSlots($('#ring3'), DictTotalInfo['2']);
+	createSlots($('#ring4'), DictTotalInfo['3']);
+	createSlots($('#ring5'), DictTotalInfo['4']);
 
 	// Button Start
-	$(".go").click(function(){
+	let clickCounter = 0;
+	$('.go').click(function(){
+		clickCounter++
 		if (COUNT > 5){
-			alert("5번 넘엇다 이기");
+			alert('5번 넘엇다 이기');
+			clickCounter=0;
+		}
+		else if(clickCounter > 1){
+			alert('광클 금지');
 		}
 		else{
 			var timer = 1;
 			spin(timer, DictLUTCopy);
+			clickCounter=0;
 		}
- 		
+		
  	});
-
+	 
 	// Button Reset
-	$(".goReset").click(function(){
+	$('.goReset').click(function(){
 		COUNT = 1;
 		DictRoute = {};		
 		DictLUTCopy = copyObjectDeep(DictLUT);
-		$("#resultTable tbody td").text('');
+		$('#resultTable tbody td').text('');
 		
 	});
 	

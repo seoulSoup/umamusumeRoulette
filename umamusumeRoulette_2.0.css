@@ -64,9 +64,9 @@
 
   .cardSet {
     margin: 0 auto;
-    height: auto;
-    width: auto;
-    float: left;
+    /* height: auto;
+    width: auto; */
+    float: center;
     transform-style: preserve-3d;
   
   }
@@ -80,6 +80,7 @@
     color: rgba(0,0,0,0.9);
     /* background: #ff00ff; */
     background-image: url(./assets/cardSample.png);
+    background-size: cover;
     /* border: solid 2px #000; */
     font-size: 27px;
     /* font-weight: bold; */
@@ -91,6 +92,31 @@
     display: none;
     z-index: 20;
   }
+
+  .biwacon {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100px;
+    height: 120px;
+    /* box-sizing: border-box; */
+    opacity: 0.95;
+    color: rgba(0,0,0,0.9);
+    /* background: #ff00ff; */
+    background-image: url(./assets/biwacon.png);
+    background-size: cover;
+    /* border: solid 2px #000; */
+    /* font-weight: bold; */
+    margin: 0;
+    /* -webkit-backface-visibility: hidden; */
+            /* backface-visibility: hidden; */
+    display: hidden;
+    z-index: 20;
+  }
+  @keyframes fadeOut { 0% { opacity: 1; visibility: visible;} 
+                      50% { opacity: 1; transform: translateY(-100px) } 
+                      100% { opacity: 0; visibility: hidden; display: none }
+  } 
 
   .ring {
     margin: 0 auto;
