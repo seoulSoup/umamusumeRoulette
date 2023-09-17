@@ -127,6 +127,58 @@ let DictLUT = {0: {0: {0: {3: [2]}},	// 삿포로
                     } // 더트 for 개작두
                 }
 
+const dictCard = {
+					'none': {
+
+					},
+					'env': {
+						'gyosin': '',
+						'ggot': '',
+						'baram': '',
+						'coffe': '',
+						'bitgil': '',
+						'poku': '',
+						'bingpan': '',
+						'illyu': '',
+						'donggyoung': '',
+						'bubbly': '',
+						'cheongo': '',
+						'gansik': ''
+
+					},
+					'condition': {
+						'muhan': '',
+						'hwejang': ''
+					},
+					'race': {
+						'mejiro': '',
+						'lucky': '',
+						'babsang': '',
+						'domang': '',
+						'daum': '',
+						'route': '',
+						'gate': '',
+						'hyusik': '',
+						'bonup': '',
+						'chilhuk': '',
+						'costum': '',
+						'road': '',
+						'yori': '',
+						'sihum': '',
+						'mission': '',
+						'nai': '',
+						'jungche': '',
+						'gisuksa': '',
+						'hisiama': '',
+						'dalkom': '',
+						'yes': '',
+						'jingyeok': '',
+						'banyeok': '',
+						'kekiretsu': '',
+					}
+}
+
+
 function createSlots (ring, DictTemp) {
 	var slotAngle = 360 / SLOTS_PER_REEL;
 	// var LenTemp = Object.keys(DictTemp).length
@@ -310,24 +362,50 @@ function spin(timer, DictInput) {
 		// Current Win position Index: oldSeed + 2
 		// We have to put answer into this position
 		// seed = (12 + ListAnswerIdx[seed])%12;
-		card();
+		
 	}
-	setTimeout(() => inputTable(DictRoute), timeAnimation*1000);
+	setTimeout(() => {
+		inputTable(DictRoute);
+		cardOverlay();
+	}, timeAnimation*1000);
+	
 	// console.log(DictRoute);
 	// console.log('=====');
 }
+function createCardSet(strCardSet) {
+	e = $("<div></div>")
+	$("#overlay").append(e);
+	e.attr('id', strCardSet);
+	e.attr('class', strCardSet);
+	e.show()
+}
 
-function card() {
+function resetCardSet(cardSet) {
+
+}
+
+function cardOverlay() {
 	// Black After Roulette
 	// console.log($("#overlay"));
 	$("#overlay").show();
-	$("#cardSample").show();
-	// $("#overlay").hide();
+	// $("#cardSample").show();
+	// const flagPick = createCardSet("#cardSetCategory")
+	const flagPick = createCardSet("card")
+	if (flagPick) {
+		const flagPick2 = createCardSet("cardSetPick");
+	}
+	// console.log($("#overlay"));
+	$("#overlay").on("dblclick", () => {
+		////////////////////////////////
+		// Task: skip action instead of hide
+		$("#overlay").hide();
+		////////////////////////////////
+		
+	});
+	
 	// $("#overlay").attr("display", "block");
 }
-function cardSpin() {
 
-}
 // window.onload = function() {
 $(document).ready(function() {
 	let DictLUTCopy = copyObjectDeep(DictLUT);

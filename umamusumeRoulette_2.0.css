@@ -61,7 +61,16 @@
     z-index: 15; /* Specify a stack order in case you're using a different order for other elements */
     cursor: pointer; /* Add a pointer on hover */
   }
+
+  .cardSet {
+    margin: 0 auto;
+    height: auto;
+    width: auto;
+    float: left;
+    transform-style: preserve-3d;
   
+  }
+
   .card {
     position: absolute;
     width: 400px;
@@ -82,6 +91,7 @@
     display: none;
     z-index: 20;
   }
+
   .ring {
     margin: 0 auto;
     height: 80px;
