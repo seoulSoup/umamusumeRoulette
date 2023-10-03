@@ -18,7 +18,6 @@ const consoleToHtml = function() {
     consoleDiv.textContent += '\n'
 }
 window.console.log = consoleToHtml
-
 					// index0: 거리
 let dictTotalInfo = {0: {0: ['단거리', '#E0BBE4'],	// 단거리: 오이 제외
 						1: ['마일', '#957DAD'],		// 마일: 오이 제외
@@ -130,10 +129,10 @@ let dictLUT = {0: {0: {0: {3: [2]}},	// 삿포로
                     } // 더트 for 개작두
                 }
 const dictCardCategory = {
-					'none': '001.course_sunnyfine.png',
-					'env': '002.course_sunnywet.png',
-					'condition': '003.course_cloudyfine.png',
-					'race': '004.course_cloudywet.png'
+					'env': '00A_weather_course.png',
+					'condition': '00B_condition.png',
+					'race': '00C_race.png',
+					'none': '00D_null.png'
 }
 const dictCardVariable = {
 					'none': {
@@ -372,6 +371,11 @@ function spin(timer, dictInput) {
 		// seed = (12 + listAnswerIdx[seed])%12;
 		
 	}
+	// $('#ring'+(i-1)).on('animationend', (() => {
+	// 	console.log("AAA");
+	// 	inputTable(dictRoute);
+	// 	cardOverlay();
+	// }));
 	setTimeout(() => {
 		inputTable(dictRoute);
 		cardOverlay();
@@ -387,25 +391,69 @@ function createCardSet(dictCardSet) {
 	let shuffleHeight = parseInt((height-100)/2);
 	let cardSet = $('<div></div>')
 	$('#overlay').append(cardSet);
-	cardSet.css('left', shuffleRadius + cardWidth/2)
-			.css('top', shuffleHeight - cardHeight/2);
-	cardSet.attr('id', Object.keys({dictCardSet})[0]).attr('class', 'cardSet');
-	for (let i=0; i < 4; i++) {
-		let card = $('<div></div>')
-		card.attr('id', 'card' + i)
-			.attr('class', 'card')
+	cardSet.attr('id', Object.keys({dictCardSet})[0])
+			.attr('class', 'cardSet');
+	cardSet.css('left', shuffleRadius)
+			.css('top', shuffleHeight);
+	for (let i=0; i < Object.keys(dictCardSet).length; i++) {
+		let card = $('<div></div>');
+		let cardFace = $('<div></div>');
+		card.attr('id', 'card' + i);
+		cardFace.attr('id', 'cardFace' + i)
+			.attr('class', 'cardFace')
+			
+			// .css('position', 'absolute')
+			// .css('width', '400px')
+			// .css('height', '512px')
+			// .css('opacity', '0.7')
+			// .css('background-size', 'contain')
+			// .css('background-position', 'center')
+			// .css('background-repeat', 'no-repeat')
+			// .css('margin', '0')
+			// .css('backface-visibility', 'hidden')
+			// .css('display', 'none')
+			// .css('animation-fill-mode', 'forwards')
 			.css('background-image', 'url(' + PATH_VAR + dictCardSet[Object.keys(dictCardSet)[i]] + ')')
 			// .css('left', (intervalWidth-) + intervalWidth*i)
 			// .css('top', shuffleHeight-)
-			.css('transform','rotateY('+(90*i)+'deg) translateZ('+shuffleRadius+'px)')
-			.css('animation', 'cardFadeIn 0.5s');
+			// .css('transform','rotateY('+(90*i)+'deg) translateZ('+shuffleRadius+'px)')
+		let cardBack = $('<div></div>')
+		cardBack.attr('id', 'cardBack' + i)
+			.attr('class', 'cardFace')
+			.css('background-image', 'url(' + PATH_VAR + '000_backside.png)')
+			.css('transform','rotateY(180deg) translateX(-1px)');
+			
+			
 		
 		// let transform = 'rotateY(' + (90 * i) + 'deg) translateX(' + shuffleRadius + 'px)';
 		// card.style.transform = transform;
+		card.append(cardBack);
+		card.append(cardFace);
 		cardSet.append(card);
-		card.show();
+		card.css('animation', 'cardFadeIn 0.5s');
+		// cardFace.show();
+		// cardBack.show();
+		
 	}
-	const randomIdx = Math.floor(Math.random() * 5);
+	setTimeout(() => {
+		for (let i=0; i < Object.keys(dictCardSet).length; i++) {
+			let card = cardSet.find('#card' + i);
+			card.css('animation', 'cardSpreadCategoryFadeIn' + i + ' 0.7s ease-out');
+			card.on('animationend', (() => {
+				card.css('transform','rotateY('+(90*(3-i))+'deg) translateZ(300px)');
+			}))
+			// card.css('transform','rotateY('+(90*i)+'deg) translateZ(300px)');
+			// let cardBack = cardSet.find('#cardBack' + i);
+			
+			// cardBack.css('animation', 'cardBackSpreadCategoryFadeIn' + i + ' 0.7s');
+			// cardBack.on('animationend', (() => {
+			// 	cardBack.css('transform','rotateX(180deg) rotateZ(180deg) rotateY('+(90*i)+'deg) translateZ(300px) ');
+			// }))
+				
+		}
+	}, 700);
+	
+	const randomIdx = Math.floor(Math.random() * (Object.keys(dictCardSet).length+1));
 	// Spread Animation
 	// Spin Animation
 }
@@ -415,11 +463,9 @@ function resetCardSet(cardSet) {
 }
 
 function cardOverlay() {
-	// Black After Roulette
-	// console.log($('#overlay'));
+	// Dark After Roulette
 	$('#overlay').show();
-	// $('#cardSample').show();
-	// const flagPick = createCardSet('#cardSetCategory')
+	// Category Roulette
 	const flagPick = createCardSet(dictCardCategory);
 	$('#overlay').on('click', (event) => {
 		if (flagPick) {
@@ -433,10 +479,12 @@ function cardOverlay() {
 				.css('left', x + 'px')
 				.css('top', y + 'px')
 				.css('animation', 'fadeOut 0.9s');
-		
-		setTimeout(() => {
+		biwacon.on('animationend', (() => {
 			biwacon.remove();
-		}, 800);
+		}))
+		// setTimeout(() => {
+		// 	biwacon.remove();
+		// }, 800);
 	});	
 	// console.log($('#overlay'));
 	$('#overlay').on('dblclick', () => {
