@@ -63,12 +63,16 @@
   }
 
   .cardSet {
-    margin: 0 auto;
-    /* height: auto;
-    width: auto; */
+    position: absolute;
+    margin: auto;
+    width: 800 px;
+    height: 600 px;
     float: center;
     transform-style: preserve-3d;
-  
+    z-index: 20;
+    perspective: 3000px;
+    perspective-origin: 50% 50%;
+    backface-visibility: hidden;
   }
 
   .card {
@@ -79,8 +83,11 @@
     opacity: 0.95;
     color: rgba(0,0,0,0.9);
     /* background: #ff00ff; */
-    background-image: url(./assets/cardSample.png);
-    background-size: cover;
+    /* background-image: url(./assets/cardSample.png); */
+    /* background-size: cover; */
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
     /* border: solid 2px #000; */
     font-size: 27px;
     /* font-weight: bold; */
@@ -90,9 +97,15 @@
     /* -webkit-backface-visibility: hidden; */
             /* backface-visibility: hidden; */
     display: none;
-    z-index: 20;
+    
   }
 
+  @keyframes cardFadeIn { 0% { opacity: 0; visibility: visible;} 
+                      100% { opacity: 1; visibility: hidden; display: none }
+  }
+  @keyframes cardFadeOut { 0% { opacity: 1; visibility: visible;} 
+                      100% { opacity: 0; visibility: hidden; display: none }
+  }
   .biwacon {
     position: absolute;
     left: 0px;

@@ -2,9 +2,12 @@ const SLOTS_PER_REEL = 12;
 // radius = Math.round( ( panelWidth / 2) / Math.tan( Math.PI / SLOTS_PER_REEL ) ); 
 // current settings give a value of 149, rounded to 150
 const REEL_RADIUS = 149;
+const PATH_VAR = "./assets/variable/";
+const cardWidth =  400;
+const cardHeight = 512;
 var COUNT = 1;
-let DictRoute = {}; // Route Append
-let ListCurrentRings = []; // Route Append
+let dictRoute = {}; // Route Append
+let listCurrentRings = []; // Route Append
 const consoleDiv = document.querySelector('#console')
 const consoleToHtml = function() {
     Array.from(arguments).forEach(el => {
@@ -17,7 +20,7 @@ const consoleToHtml = function() {
 window.console.log = consoleToHtml
 
 					// index0: 거리
-let DictTotalInfo = {0: {0: ['단거리', '#E0BBE4'],	// 단거리: 오이 제외
+let dictTotalInfo = {0: {0: ['단거리', '#E0BBE4'],	// 단거리: 오이 제외
 						1: ['마일', '#957DAD'],		// 마일: 오이 제외
 						2: ['중거리', '#D291BC'],	// 중거리: 오이 제외
 						3: ['장거리', '#FEC8D8'],			// 장거리: 니이가타, 츄쿄, 오이 제외
@@ -49,7 +52,7 @@ let DictTotalInfo = {0: {0: ['단거리', '#E0BBE4'],	// 단거리: 오이 제�
 						}
 }
 
-let DictLUT = {0: {0: {0: {3: [2]}},	// 삿포로
+let dictLUT = {0: {0: {0: {3: [2]}},	// 삿포로
 					1: {0: {3: [2, 0]}}, 	// 하코다테
 					2: {0: {3: [2]}},	// 후쿠시마
 					3: {1: {0: [4, 2]}, 
@@ -126,74 +129,79 @@ let DictLUT = {0: {0: {0: {3: [2]}},	// 삿포로
                     10: {0: {3:[8]}} // 오이
                     } // 더트 for 개작두
                 }
-
-const dictCard = {
+const dictCardCategory = {
+					'none': '001.course_sunnyfine.png',
+					'env': '002.course_sunnywet.png',
+					'condition': '003.course_cloudyfine.png',
+					'race': '004.course_cloudywet.png'
+}
+const dictCardVariable = {
 					'none': {
 
 					},
 					'env': {
-						'gyosin': '',
-						'ggot': '',
-						'baram': '',
-						'coffe': '',
-						'bitgil': '',
-						'poku': '',
-						'bingpan': '',
-						'illyu': '',
-						'donggyoung': '',
-						'bubbly': '',
-						'cheongo': '',
-						'gansik': ''
+						'gyosin': '001.course_sunnyfine.png',
+						'ggot': '002.course_sunnywet.png',
+						'baram': '003.course_cloudyfine.png',
+						'cafe': '004.course_cloudywet.png',
+						'bitgil': '005.course_rainsat.png',
+						'poku': '006.course_rainbad.png',
+						'bingpan': '007.course_snowwet.png',
+						'illyu': '008.course_snowbad.png',
+						'donggyoung': '009.weth_spring.png',
+						'bubbly': '010.weth_summer.png',
+						'cheongo': '011.weth_fall.png',
+						'gansik': '012.weth_winter.png'
 
 					},
 					'condition': {
-						'muhan': '',
-						'hwejang': ''
+						'muhan': '013.condi_best.png',
+						'hwejang': '014.condi_worst.png'
 					},
 					'race': {
-						'mejiro': '',
-						'lucky': '',
-						'babsang': '',
-						'domang': '',
-						'daum': '',
-						'route': '',
-						'gate': '',
-						'hyusik': '',
-						'bonup': '',
-						'chilhuk': '',
-						'costum': '',
-						'road': '',
-						'yori': '',
-						'sihum': '',
-						'mission': '',
-						'nai': '',
-						'jungche': '',
-						'gisuksa': '',
-						'hisiama': '',
-						'dalkom': '',
-						'yes': '',
-						'jingyeok': '',
-						'banyeok': '',
-						'kekiretsu': '',
+						'mejiro': '015.ban_mejiro.png',
+						'lucky': '016.ban_sakuramachikane.png',
+						'babsang': '017.ban_narita.png',
+						'domang': '018.ban_nige.png',
+						'daum': '019.ban_senko.png',
+						'route': '020.ban_sasi.png',
+						'gate': '021.ban_tsui.png',
+						'hyusik': '022.ban_already.png',
+						'bonup': '023.ban_unit.png',
+						'chilhuk': '024.ban_add.png',
+						'costum': '025.only_origin.png',
+						'road': '026.only_addicth.png',
+						'yori': '027.only_right.png',
+						'sihum': '028.only_left.png',
+						'mission': '029.only_junior.png',
+						'nai': '030.only_senior.png',
+						'jungche': '031.only_under93.png',
+						'gisuksa': '032.only_over94.png',
+						'hisiama': '033.only_ritto.png',
+						'dalkom': '034.only_miho.png',
+						'yes': '035.only_under158.png',
+						'jingyeok': '036.only_over159.png',
+						'banyeok': '037.18entry.png',
+						'kekiretsu': '038.allout.png'
 					}
 }
 
 
-function createSlots (ring, DictTemp) {
+function createSlots (ring, dictTemp) {
 	var slotAngle = 360 / SLOTS_PER_REEL;
-	// var LenTemp = Object.keys(DictTemp).length
-	let ListGen = [];
-	let ListSlot = [];
-	for (val in Object.keys(DictTemp)){
-		ListGen.push([val, DictTemp[val]]);
+	// var LenTemp = Object.keys(dictTemp).length
+	let listGen = [];
+	let listSlot = [];
+	for (val in Object.keys(dictTemp)){
+		listGen.push([val, dictTemp[val]]);
 	}
-	// shuffle List
-	shuffle(ListGen);
-	genTemp = infGenerator(ListGen);
+	// shuffle list
+	shuffle(listGen);
+	genTemp = infGenerator(listGen);
 	for (var i = 0; i < SLOTS_PER_REEL; i ++) {
 		var slot = document.createElement('div');
 		slot.className = 'slot';
-		slot.id = 'ring' + (ListCurrentRings.length+1) + 'slot' + i;
+		slot.id = 'ring' + (listCurrentRings.length+1) + 'slot' + i;
 		var genNext = genTemp.next().value;
 		// compute and assign the transform for this slot
 		var transform = 'rotateX(' + (slotAngle * i) + 'deg) translateZ(' + REEL_RADIUS + 'px)';
@@ -212,13 +220,13 @@ function createSlots (ring, DictTemp) {
 			// $(slot).append(i + ':' + content);
 			$(slot).append(content);
 		}
-		ListSlot.push(genNext);
+		listSlot.push(genNext);
 		// add the poster to the row
 		ring.append(slot);
 		
 	}
-	// console.log(ListSlot);
-	ListCurrentRings.push(ListSlot);
+	// console.log(listSlot);
+	listCurrentRings.push(listSlot);
 }
 
 function getSeed(LenInput) {
@@ -227,23 +235,23 @@ function getSeed(LenInput) {
     else return Math.floor(Math.random()*(LenInput));
 }
 
-function findRoute(DictLUT, ListLUT) {
-    if (Array.isArray(DictLUT)) {
-        ListLUT.push(DictLUT[getSeed(DictLUT.length)].toString());
+function findRoute(dictLUT, listLUT) {
+    if (Array.isArray(dictLUT)) {
+        listLUT.push(dictLUT[getSeed(dictLUT.length)].toString());
         return;
     }
-    var keys = Object.keys(DictLUT);
+    var keys = Object.keys(dictLUT);
     var LenTemp = keys.length;
     var seedKey = keys[getSeed(LenTemp)];
-    ListLUT.push(seedKey)
-    findRoute(DictLUT[seedKey], ListLUT);
+    listLUT.push(seedKey)
+    findRoute(dictLUT[seedKey], listLUT);
 }
 
-function* infGenerator(ListGen){
+function* infGenerator(listGen){
     var idx = 0;
-	var lenList = ListGen.length;
+	var lenlist = listGen.length;
     while (true) {
-        yield ListGen[idx++%lenList];
+        yield listGen[idx++%lenlist];
     }
 }
 
@@ -270,30 +278,30 @@ function copyObjectDeep(target) {
 	}
 	return result;
 }
-function inputTable(DictRoute){
-	// console.log(DictRoute[Object.keys(DictRoute).length]);
+function inputTable(dictRoute){
+	// console.log(dictRoute[Object.keys(dictRoute).length]);
 	// $('#resultTable tr').eq(0).find('th').eq(1).html('Contact Name');
-	let ListRoute = DictRoute[Object.keys(DictRoute).length];
+	let listRoute = dictRoute[Object.keys(dictRoute).length];
 	for (i = 0; i < 5; i++){
-		// console.log(DictTotalInfo[i][ListRoute[i]][0]);
-		document.getElementById('resultTable').rows[COUNT-1].cells[i].innerHTML = DictTotalInfo[i][ListRoute[i]][0];
+		// console.log(dictTotalInfo[i][listRoute[i]][0]);
+		document.getElementById('resultTable').rows[COUNT-1].cells[i].innerHTML = dictTotalInfo[i][listRoute[i]][0];
 	}
 	
 }
 
-function spin(timer, DictInput) {
-	let ListLUT = [];
-	findRoute(DictInput, ListLUT);
-	delete DictInput[ListLUT[0]];
-	DictRoute[COUNT++] = ListLUT;
+function spin(timer, dictInput) {
+	let listLUT = [];
+	findRoute(dictInput, listLUT);
+	delete dictInput[listLUT[0]];
+	dictRoute[COUNT++] = listLUT;
 	
-	// console.log(DictRoute);
+	// console.log(dictRoute);
 	var timeAnimation = 3.5;
 	for(var i = 1; i < 6; i ++) {
 		// console.log($('#ring'+i).attr('class'));
 		
-		let ListCurrentRing = ListCurrentRings[i-1];
-		var answer = ListLUT[i-1];
+		let listCurrentRing = listCurrentRings[i-1];
+		var answer = listLUT[i-1];
 		// Condition
 		var oldClass = $('#ring'+i).attr('class').split('-');
 		var oldSeed = Number(oldClass[1]);
@@ -302,20 +310,20 @@ function spin(timer, DictInput) {
 		if(oldClass.length > 2) flagOldSeed = false;
 		// Checking Answer in Ring?
 		// k: randomized list index of answer
-		let ListAnswerIdx = [];
-		for (var k = 0; k < ListCurrentRing.length; k++){
-			if (answer == ListCurrentRing[k][0]) ListAnswerIdx.push(k);
+		let listAnswerIdx = [];
+		for (var k = 0; k < listCurrentRing.length; k++){
+			if (answer == listCurrentRing[k][0]) listAnswerIdx.push(k);
 		}
 		// Case: Answer is in Ring already
-		if (ListAnswerIdx.length > 1 ) {
-			var seed = (ListAnswerIdx[getSeed(ListAnswerIdx.length)]) % 12;
+		if (listAnswerIdx.length > 1 ) {
+			var seed = (listAnswerIdx[getSeed(listAnswerIdx.length)]) % 12;
 			while (seed == oldSeed){
-				seed = (ListAnswerIdx[getSeed(ListAnswerIdx.length)]) % 12;
+				seed = (listAnswerIdx[getSeed(listAnswerIdx.length)]) % 12;
 			}
 		}
 		// Case: Answer is in Ring already and only one
-		else if (ListAnswerIdx.length == 1){
-			var seed = (ListAnswerIdx[0]) % 12;
+		else if (listAnswerIdx.length == 1){
+			var seed = (listAnswerIdx[0]) % 12;
 			// var strSeed = seed;
 			// if (flagOldSeed) strSeed = seed + '-' + 2;
 		}
@@ -323,11 +331,11 @@ function spin(timer, DictInput) {
 		else {
 			seed = (oldSeed + 7) % 12;
 			// var slot = $('#ring'+i).slot;
-			$('#ring'+i+'slot' + (oldSeed + 7) % 12).text(DictTotalInfo[i-1][answer][0]);
-			ListCurrentRings[i-1][(oldSeed + 7) % 12] = [answer, DictTotalInfo[i-1][answer]];
+			$('#ring'+i+'slot' + (oldSeed + 7) % 12).text(dictTotalInfo[i-1][answer][0]);
+			listCurrentRings[i-1][(oldSeed + 7) % 12] = [answer, dictTotalInfo[i-1][answer]];
 			// $('#ring'+i+'slot5').text() = '0';
 			// console.log($('#ring'+i+'slot5').text);
-			// var seed = getSeed(ListAnswerIdx.length);
+			// var seed = getSeed(listAnswerIdx.length);
 
 			// $('#ring'+i+'slot5').css('background-image', `url('https://github.com/seoulSoup/umamusumeRoulette/blob/main/assets/icon(squre)/big.png?raw=true)`);
 			// 	$(slot).css('background-image', content)
@@ -335,7 +343,7 @@ function spin(timer, DictInput) {
 			// 			.css('background-position', 'center')
 			// 			.css('background-repeat', 'no-repeat')
 			// }
-			// console.log(ListCurrentRings[i-1]); // answer
+			// console.log(listCurrentRings[i-1]); // answer
 			
 		}
 		if (seed == oldSeed){
@@ -361,26 +369,40 @@ function spin(timer, DictInput) {
 		
 		// Current Win position Index: oldSeed + 2
 		// We have to put answer into this position
-		// seed = (12 + ListAnswerIdx[seed])%12;
+		// seed = (12 + listAnswerIdx[seed])%12;
 		
 	}
 	setTimeout(() => {
-		inputTable(DictRoute);
+		inputTable(dictRoute);
 		cardOverlay();
 	}, timeAnimation*1000);
 	
-	// console.log(DictRoute);
+	// console.log(dictRoute);
 	// console.log('=====');
 }
-function createCardSet(strCardSet) {
+function createCardSet(dictCardSet) {
+	let width = window.innerWidth;
+	let height = window.innerHeight;
+	let shuffleRadius = parseInt((width-100)/3);
+	let shuffleHeight = parseInt((height-100)/2);
 	let cardSet = $('<div></div>')
 	$('#overlay').append(cardSet);
-	cardSet.attr('id', strCardSet).attr('class', strCardSet);
+	cardSet.css('left', shuffleRadius + cardWidth/2)
+			.css('top', shuffleHeight - cardHeight/2);
+	cardSet.attr('id', Object.keys({dictCardSet})[0]).attr('class', 'cardSet');
 	for (let i=0; i < 4; i++) {
 		let card = $('<div></div>')
+		card.attr('id', 'card' + i)
+			.attr('class', 'card')
+			.css('background-image', 'url(' + PATH_VAR + dictCardSet[Object.keys(dictCardSet)[i]] + ')')
+			// .css('left', (intervalWidth-) + intervalWidth*i)
+			// .css('top', shuffleHeight-)
+			.css('transform','rotateY('+(90*i)+'deg) translateZ('+shuffleRadius+'px)')
+			.css('animation', 'cardFadeIn 0.5s');
+		
+		// let transform = 'rotateY(' + (90 * i) + 'deg) translateX(' + shuffleRadius + 'px)';
+		// card.style.transform = transform;
 		cardSet.append(card);
-		card.attr('id', 'card' + i).attr('class', 'card');
-		// card.css('width', 500+i*100);
 		card.show();
 	}
 	const randomIdx = Math.floor(Math.random() * 5);
@@ -398,10 +420,10 @@ function cardOverlay() {
 	$('#overlay').show();
 	// $('#cardSample').show();
 	// const flagPick = createCardSet('#cardSetCategory')
-	const flagPick = createCardSet('cardSet')
+	const flagPick = createCardSet(dictCardCategory);
 	$('#overlay').on('click', (event) => {
 		if (flagPick) {
-			const flagPick2 = createCardSet('cardSetPick');
+			const flagPick2 = createCardSet(dictCardVariable);
 		}
 		var x = event.pageX;
 		var y = event.pageY;
@@ -430,18 +452,18 @@ function cardOverlay() {
 
 // window.onload = function() {
 $(document).ready(function() {
-	let DictLUTCopy = copyObjectDeep(DictLUT);
+	let dictLUTCopy = copyObjectDeep(dictLUT);
 	// initiate slots 
-	// ring1:spin6 (-240deg + back60deg : idx - 6 ) Win: ListSlot1[8]
-	// ring2:spin9 (-330deg + back60deg : idx - 9) Win: ListSlot2[11]
-	// ring3:spin3 (-150deg + back60deg : idx - 3) Win: ListSlot3[5]
-	// ring4:spin1 (-90deg + back60deg : idx - 1) Win: ListSlot4[3]
-	// ring5:spin2 (-120deg + back60deg : idx - 2) Win: ListSlot5[4]
-	createSlots($('#ring1'), DictTotalInfo['0']);
-	createSlots($('#ring2'), DictTotalInfo['1']);
-	createSlots($('#ring3'), DictTotalInfo['2']);
-	createSlots($('#ring4'), DictTotalInfo['3']);
-	createSlots($('#ring5'), DictTotalInfo['4']);
+	// ring1:spin6 (-240deg + back60deg : idx - 6 ) Win: listSlot1[8]
+	// ring2:spin9 (-330deg + back60deg : idx - 9) Win: listSlot2[11]
+	// ring3:spin3 (-150deg + back60deg : idx - 3) Win: listSlot3[5]
+	// ring4:spin1 (-90deg + back60deg : idx - 1) Win: listSlot4[3]
+	// ring5:spin2 (-120deg + back60deg : idx - 2) Win: listSlot5[4]
+	createSlots($('#ring1'), dictTotalInfo['0']);
+	createSlots($('#ring2'), dictTotalInfo['1']);
+	createSlots($('#ring3'), dictTotalInfo['2']);
+	createSlots($('#ring4'), dictTotalInfo['3']);
+	createSlots($('#ring5'), dictTotalInfo['4']);
 
 	// Button Start
 	let clickCounter = 0;
@@ -456,7 +478,7 @@ $(document).ready(function() {
 		}
 		else{
 			var timer = 1;
-			spin(timer, DictLUTCopy);
+			spin(timer, dictLUTCopy);
 			clickCounter=0;
 		}
 		
@@ -465,8 +487,8 @@ $(document).ready(function() {
 	// Button Reset
 	$('.goReset').click(function(){
 		COUNT = 1;
-		DictRoute = {};		
-		DictLUTCopy = copyObjectDeep(DictLUT);
+		dictRoute = {};		
+		dictLUTCopy = copyObjectDeep(dictLUT);
 		$('#resultTable tbody td').text('');
 		
 	});
