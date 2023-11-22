@@ -6,11 +6,6 @@ const PATH_VAR = "./assets/variable/";
 const cardWidth =  400;
 const cardHeight = 512;
 var COUNT = 1;
-let flagCard1 = false;
-let flagCard2 = false;
-let flagPick = -1;
-let flagPick2 = -1;
-let beforeCard = 0;
 let dictRoute = {}; // Route Append
 let listCurrentRings = []; // Route Append
 const consoleDiv = document.querySelector('#console')
@@ -134,14 +129,12 @@ let dictLUT = {0: {0: {0: {3: [2]}},	// 삿포로
                     } // 더트 for 개작두
                 }
 const dictCardCategory = {
-					'ggwang': '00D_null.png',
 					'env': '00A_weather_course.png',
 					'condition': '00B_condition.png',
 					'race': '00C_race.png',
-					
+					'none': '00D_null.png'
 }
 const dictCardVariable = {
-					'ggwang': {},
 					'env': {
 						'gyosin': '001.course_sunnyfine.png',
 						'ggot': '002.course_sunnywet.png',
@@ -187,6 +180,9 @@ const dictCardVariable = {
 						'banyeok': '037.18entry.png',
 						'kekiretsu': '038.allout.png'
 					},
+					'none': {
+
+					}
 }
 
 
@@ -468,19 +464,7 @@ function createCardSet(dictCardSet) {
 				
 		}
 	}, 700);
-	let randomIdx = 0;
-	if (dictLength == 4) {
-		randomIdx = Math.floor(Math.random() * (dictLength));
-		// 50% none and not same to before
-		if (randomIdx > 1) {
-			while (randomIdx == beforeCard) {
-				randomIdx = Math.floor(Math.random() * (dictLength-1)) + 1;
-			}
-		}
-	}
-	else {
-		randomIdx = Math.floor(Math.random() * (dictLength));
-	}
+	const randomIdx = Math.floor(Math.random() * (dictLength));
 	// console.log(randomIdx, dictCardSet[Object.keys(dictCardSet)[randomIdx]]);
 	setTimeout(() => {
 		for (let i=0; i < dictLength; i++) {
@@ -494,12 +478,6 @@ function createCardSet(dictCardSet) {
 					card.css('animation','cardFadeIn2 0.7s ease-out');
 					card.on('animationend', (() => {
 						card.css('opacity', '1');
-						if (dictLength == 4) {
-							flagCard1 = true;
-						}
-						else {
-							flagCard2 = true;
-						}
 					}))
 				}
 				else {
@@ -513,46 +491,25 @@ function createCardSet(dictCardSet) {
 		
 	}, 1500);
 
-	return randomIdx
-}
-
-function cardResultOverlay() {
-	if (COUNT > 0) {
-		$('#cardResultOverlay .cardFace').remove();
-	}
-	$('#cardResultOverlay').css('display', 'flex')
-						.show();
-	let img = '';
-	if ((flagPick == 0) && (flagCard1)) {
-		img = dictCardCategory[Object.keys(dictCardCategory)[flagPick]];
+	if ((dictLength==4) && (randomIdx<3)) {
+		return randomIdx
 	}
 	else {
-		const dictTemp = dictCardVariable[Object.keys(dictCardVariable)[flagPick]];
-		img = dictTemp[Object.keys(dictTemp)[flagPick2]];
+		return 3
 	}
-	
-	let cardFace = $('<div></div>');
-	cardFace.attr('id', 'cardFace')
-		.attr('class', 'cardFace')
-		.css('background-image', 'url(' + PATH_VAR + img + ')')
-		.css('opacity', '1');
-		// .css('visibility', 'visible')
-		// .css('left', (intervalWidth-) + intervalWidth*i)
-		// .css('top', shuffleHeight-)
-		// .css('transform','rotateY('+(90*i)+'deg) translateZ('+shuffleRadius+'px)')
-	// console.log(img);
-	// console.log(cardFace);
-	$('#cardResultOverlay').append(cardFace);
 }
-
 
 function cardOverlay() {
 	// Dark After Roulette
 	$('#overlay').show();
 	// $('#overlay').css('display', 'flex');
 	// Category Roulette
-	flagPick = createCardSet(dictCardCategory);
+	const flagPick = createCardSet(dictCardCategory);
+	let flagPick2 = 0;
 	$('#overlay').on('click', (event) => {
+		if ((flagPick < 3) && (flagPick2==0)) {
+			flagPick2 = createCardSet(dictCardVariable[Object.keys(dictCardVariable)[flagPick]]);
+		}
 		var x = event.pageX;
 		var y = event.pageY;
 		var biwacon = $('<div></div>');
@@ -572,18 +529,7 @@ function cardOverlay() {
 	$('#overlay').on('dblclick', () => {
 		////////////////////////////////
 		// Task: skip action instead of hide
-		if ((flagPick > 0) && (flagCard1)) {
-			flagCard1 = false;
-			flagPick2 = createCardSet(dictCardVariable[Object.keys(dictCardVariable)[flagPick]]);
-		}
-		if (((flagPick == 0) && (flagCard1)) || ((flagPick2 >= 0) && (flagCard2))) {
-			$('#overlay').hide();
-			cardResultOverlay();
-			flagCard1 = false;
-			flagCard2 = false;
-			
-		}
-		
+		$('#overlay').hide();
 		////////////////////////////////
 		
 	});
@@ -619,15 +565,11 @@ $(document).ready(function() {
 		}
 		else{
 			var timer = 1;
-			$('#cardResultOverlay').hide();
 			spin(timer, dictLUTCopy);
 			clickCounter=0;
 		}
 		
  	});
-	$('.go').on('dblclick', (() => {
-				
- 	}));
 	 
 	// Button Reset
 	$('.goReset').click(function(){
@@ -635,11 +577,8 @@ $(document).ready(function() {
 		dictRoute = {};		
 		dictLUTCopy = copyObjectDeep(dictLUT);
 		$('#resultTable tbody td').text('');
-		$('#cardResultOverlay').hide();
+		
 	});
-	$('.goReset').on('dblclick', (() => {
-				
-	}));
 	
 	// hook result checkbox
  	$('#toggle').click(function(){
