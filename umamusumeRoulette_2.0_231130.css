@@ -174,7 +174,7 @@
     opacity: 0.95;
     color: rgba(0,0,0,0.9);
     /* background: #ff00ff; */
-    background-image: url(./assets/biwacon2.png);
+    background-image: url(./assets/biwacon.png);
     background-size: cover;
     /* border: solid 2px #000; */
     /* font-weight: bold; */
@@ -306,7 +306,6 @@
     --gray-dots: #e8e8ea;
     /** general **/
     --white: #fff;
-    --rouletteSpinDeg: 0;
   }
 
   .toggle--checkbox {
@@ -437,7 +436,7 @@
   .spin-9     { transform: rotateX(-629deg); }
   .spin-10    { transform: rotateX(-659deg); }
   .spin-11    { transform: rotateX(-689deg); }
-  .spinResult { transform: rotateX(var(--rouletteSpinDeg)); }
+
 
   /*=====*/
   @keyframes back-spin {
@@ -453,11 +452,7 @@
       0%    { transform: rotateY(45deg);}
       100%  { transform: rotateY(0deg);}
   }
-  @keyframes spinVar {
-    0%    { transform: rotateX(30deg); }
-    100%  { transform: rotateX(var(--rouletteSpinDeg)); }
-  }
-  
+ 
   @keyframes spin-0 {
       0%    { transform: rotateX(30deg); }
       100%  { transform: rotateX(-3599deg); }

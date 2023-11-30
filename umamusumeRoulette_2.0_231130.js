@@ -189,13 +189,6 @@ const dictCardVariable = {
 					},
 }
 
-dictDupCheck = {
-				0: [],
-				1: [],
-				2: [],
-				3: []
-}
-
 
 function createSlots (ring, dictTemp) {
 	var slotAngle = 360 / SLOTS_PER_REEL;
@@ -356,16 +349,21 @@ function spin(timer, dictInput) {
 			// console.log(listCurrentRings[i-1]); // answer
 			
 		}
-		// Seed Duplicated
 		if (seed == oldSeed){
+			// console.log('start' + seed);
+			// console.log($('#ring'+i).attr('class'));
+			// console.log($('#ring'+i).css('transform'));
 			$('#ring'+i)
-			.css('--rouletteSpinDeg', (-3599 - 30*seed) + 'deg')
-			.css('animation','back-spin 1s, spinVar ' + (timer + i*0.5) + 's')
+			.css('animation','back-spin 0s, spin-' + seed + ' ' + (COUNT + i*0.5) + 's')
 			.attr('class','ring spin-' + seed);  // Last State (Result)
-			if (timeAnimation < (timer + i*0.5)) timeAnimation = (timer + i*0.5);
+			// .css('animation','back-spin 5s');
+			// .css('animation','spin-' + seed + ' ' + (timer + i*0.5) + 's');
+			// console.log($('#ring'+i).css('transform'));
+			if (timeAnimation < (COUNT + i*0.5)) timeAnimation = (COUNT + i*0.5);
 
 		}
 		else {
+			// Animation
 			$('#ring'+i)
 			.css('animation','back-spin 1s, spin-' + seed + ' ' + (timer + i*0.5) + 's')
 			.attr('class','ring spin-' + seed);  // Last State (Result)
@@ -377,6 +375,11 @@ function spin(timer, dictInput) {
 		// seed = (12 + listAnswerIdx[seed])%12;
 		
 	}
+	// $('#ring'+(i-1)).on('animationend', (() => {
+	// 	console.log("AAA");
+	// 	inputTable(dictRoute);
+	// 	cardOverlay();
+	// }));
 	setTimeout(() => {
 		inputTable(dictRoute);
 		cardOverlay();
@@ -466,21 +469,17 @@ function createCardSet(dictCardSet) {
 		}
 	}, 700);
 	let randomIdx = 0;
-	randomIdx = Math.floor(Math.random() * (dictLength));
 	if (dictLength == 4) {
+		randomIdx = Math.floor(Math.random() * (dictLength));
 		// 50% none and not same to before
 		if (randomIdx > 1) {
-			while ((randomIdx == beforeCard) || ((randomIdx == 2) && (dictDupCheck[2].length == 2))) {
+			while (randomIdx == beforeCard) {
 				randomIdx = Math.floor(Math.random() * (dictLength-1)) + 1;
 			}
 		}
 	}
 	else {
-		while ((randomIdx in dictDupCheck[flagPick])) {
-			randomIdx = Math.floor(Math.random() * (dictLength));
-		}
-		dictDupCheck[flagPick].push(randomIdx);
-		
+		randomIdx = Math.floor(Math.random() * (dictLength));
 	}
 	// console.log(randomIdx, dictCardSet[Object.keys(dictCardSet)[randomIdx]]);
 	setTimeout(() => {
@@ -521,9 +520,8 @@ function cardResultOverlay() {
 	if (COUNT > 0) {
 		$('#cardResultOverlay .cardFace').remove();
 	}
-	$('#cardResultOverlay')
-	.css('display', 'flex')
-	.show();
+	$('#cardResultOverlay').css('display', 'flex')
+						.show();
 	let img = '';
 	if ((flagPick == 0) && (flagCard1)) {
 		img = dictCardCategory[Object.keys(dictCardCategory)[flagPick]];
